@@ -1,489 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 NEXUS Free Fire Key Generator</title>
+    <title>NEXUS PANEL - Free Fire Ultimate Mod</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
+            color: #00ff9d;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .nexus-header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #00ff9d;
+            box-shadow: 0 0 30px #00ff9d;
+        }
+        
+        .nexus-title {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff9d;
+            letter-spacing: 3px;
+        }
+        
+        .panel-container {
+            max-width: 1200px;
+            margin: 30px auto;
             padding: 20px;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
-            border: 1px solid #00ffff;
+        
+        .module-section {
+            background: rgba(0, 20, 10, 0.8);
+            border: 2px solid #00ff9d;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
         }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #ff00ff;
+        
+        .module-title {
+            color: #00ff9d;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .header h1 {
-            font-size: 2.8em;
-            background: linear-gradient(90deg, #ff00ff, #00ffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        
+        .module-title::before {
+            content: ">>";
+            color: #ff0055;
         }
-        .header p {
-            color: #aaa;
-            font-size: 1.1em;
-        }
-        .nexus-badge {
-            background: linear-gradient(45deg, #ff0080, #00ccff);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin: 10px;
-            font-weight: bold;
-            animation: glow 2s infinite;
-        }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px #ff00ff; }
-            50% { box-shadow: 0 0 20px #00ffff; }
-        }
-        .control-panel {
+        
+        .button-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
-        .btn {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            border: none;
+        
+        .nexus-button {
+            background: linear-gradient(45deg, #001a0d, #003320);
+            border: 2px solid #00ff9d;
             color: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 1.2em;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 114, 255, 0.4);
-        }
-        .btn-vip {
-            background: linear-gradient(45deg, #ff0080, #ff8c00);
-        }
-        .btn-bulk {
-            background: linear-gradient(45deg, #9d50bb, #6e48aa);
-        }
-        .result-box {
-            background: rgba(0, 30, 60, 0.9);
-            border: 2px solid #00ffff;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-            display: none;
             position: relative;
+            overflow: hidden;
         }
-        .result-box.active {
-            display: block;
-            animation: fadeIn 0.5s;
+        
+        .nexus-button:hover {
+            background: linear-gradient(45deg, #00ff9d, #00cc7a);
+            box-shadow: 0 0 25px #00ff9d;
+            transform: translateY(-5px);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .button-active {
+            background: linear-gradient(45deg, #ff0055, #cc0044);
+            border-color: #ff0055;
+            box-shadow: 0 0 30px #ff0055;
         }
-        .key-display {
-            font-family: 'Courier New', monospace;
-            font-size: 1.8em;
-            color: #00ff00;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            word-break: break-all;
-            border: 1px solid #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-        }
-        .copy-btn {
-            background: #00cc00;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        .copy-btn:hover {
-            background: #00aa00;
-        }
-        .status-bar {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .log-console {
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #444;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
-        .log-entry {
-            padding: 5px 0;
-            border-bottom: 1px solid #333;
-            color: #0f0;
-        }
-        .log-time {
-            color: #ff0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #888;
-            font-size: 0.9em;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-        }
-        .loader {
-            display: none;
-            text-align: center;
-            margin: 20px;
-        }
-        .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #00ffff;
+        
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
+            background: #ff0000;
+        }
+        
+        .status-active {
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        .hologram-preview {
+            width: 100%;
+            height: 300px;
+            background: rgba(0, 10, 5, 0.9);
+            border: 2px solid #00ff9d;
+            border-radius: 10px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hologram-enemy {
+            position: absolute;
             width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+            height: 100px;
+            background: rgba(255, 0, 85, 0.7);
+            border-radius: 10px;
+            animation: pulse 2s infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px #ff0055; }
+            50% { box-shadow: 0 0 30px #ff0055; }
+            100% { box-shadow: 0 0 10px #ff0055; }
         }
+        
+        .settings-panel {
+            background: rgba(0, 15, 30, 0.9);
+            border: 2px solid #0088ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .slider-container {
+            margin: 15px 0;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 10px;
+            -webkit-appearance: none;
+            background: linear-gradient(to right, #001a0d, #00ff9d);
+            border-radius: 5px;
+        }
+        
+        .log-container {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff9d;
+            border-radius: 10px;
+            padding: 15px;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+            font-family: monospace;
+        }
+        
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .log-success { color: #00ff9d; }
+        .log-warning { color: #ffff00; }
+        .log-error { color: #ff0055; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="nexus-badge">NEXUS AI POWERED</div>
-            <h1>🔥 FREE FIRE KEY GENERATOR</h1>
-            <p>100% Working Bypass System | Instant Keys | No Verification</p>
-        </div>
-        
-        <div class="status-bar">
-            <div>
-                <strong>Status:</strong> <span id="statusText" style="color:#0f0;">🟢 ONLINE</span>
+    <div class="nexus-header">
+        <h1 class="nexus-title">NEXUS PANEL v4.20</h1>
+        <p>Free Fire Ultimate Enhancement Suite</p>
+    </div>
+    
+    <div class="panel-container">
+        <!-- BYPASS MODULE -->
+        <div class="module-section">
+            <h2 class="module-title">ULTIMATE BYPASS SYSTEM</h2>
+            <div class="button-grid">
+                <div class="nexus-button" onclick="toggleBypass('ac')">
+                    Anti-Cheat Bypass
+                    <div class="status-indicator" id="status-ac"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleBypass('ban')">
+                    Anti-Ban Shield
+                    <div class="status-indicator" id="status-ban"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleBypass('scan')">
+                    Memory Scan Evasion
+                    <div class="status-indicator" id="status-scan"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleBypass('garena')">
+                    Garena Core Bypass
+                    <div class="status-indicator" id="status-garena"></div>
+                </div>
             </div>
-            <div>
-                <strong>Keys Generated Today:</strong> <span id="keyCount">0</span>
-            </div>
-            <div>
-                <strong>Response Time:</strong> <span id="responseTime">0ms</span>
-            </div>
-        </div>
-        
-        <div class="control-panel">
-            <button class="btn" onclick="generateKey(1)">
-                🎯 GET SINGLE KEY
-            </button>
-            <button class="btn btn-vip" onclick="generateKey(5)">
-                ⚡ GET 5 VIP KEYS
-            </button>
-            <button class="btn btn-bulk" onclick="generateBulk()">
-                🚀 BULK GENERATE (10)
-            </button>
-            <button class="btn" onclick="verifyKey()">
-                🔍 VERIFY KEY
-            </button>
-            <button class="btn" onclick="getStats()">
-                📊 SYSTEM STATS
-            </button>
-            <button class="btn" onclick="clearConsole()">
-                🗑️ CLEAR CONSOLE
-            </button>
-        </div>
-        
-        <div class="loader" id="loader">
-            <div class="spinner"></div>
-            <p>Bypassing security systems...</p>
-        </div>
-        
-        <div class="result-box" id="resultBox">
-            <h2>🎉 KEY GENERATED SUCCESSFULLY!</h2>
-            <div class="key-display" id="keyDisplay">Waiting for key...</div>
-            <button class="copy-btn" onclick="copyKey()">📋 COPY KEY</button>
-            <div style="margin-top: 20px;">
-                <p><strong>Type:</strong> <span id="keyType">Premium</span></p>
-                <p><strong>Valid Until:</strong> <span id="validUntil">Loading...</span></p>
-                <p><strong>Source:</strong> <span id="keySource">NEXUS Generator</span></p>
+            
+            <div class="settings-panel">
+                <h3>Bypass Configuration</h3>
+                <div class="slider-container">
+                    <label>Security Level: <span id="security-level">MAX</span></label>
+                    <input type="range" min="1" max="10" value="10" onchange="updateSecurity(this.value)">
+                </div>
+                <button class="nexus-button" onclick="activateFullBypass()" style="margin-top: 15px;">
+                    ACTIVATE FULL BYPASS SUITE
+                </button>
             </div>
         </div>
         
-        <div class="log-console" id="logConsole">
-            <div class="log-entry"><span class="log-time">[00:00:00]</span> System initialized. Ready for operation.</div>
+        <!-- HOLOGRAM 3D MODULE -->
+        <div class="module-section">
+            <h2 class="module-title">3D HOLOGRAM WALLHACK</h2>
+            <div class="button-grid">
+                <div class="nexus-button" onclick="toggleHologram('wall')">
+                    3D Wall Transparency
+                    <div class="status-indicator" id="status-wall"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleHologram('enemy')">
+                    Enemy 3D Rendering
+                    <div class="status-indicator" id="status-enemy"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleHologram('skeleton')">
+                    Skeletal View
+                    <div class="status-indicator" id="status-skeleton"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleHologram('item')">
+                    Item ESP
+                    <div class="status-indicator" id="status-item"></div>
+                </div>
+            </div>
+            
+            <div class="hologram-preview" id="hologramPreview">
+                <!-- 3D hologram enemies will appear here -->
+            </div>
         </div>
         
-        <div class="footer">
-            <p>⚠️ For educational purposes only. NEXUS AI System v2.0</p>
-            <p>Generated keys are randomly created and may not work on official servers</p>
-            <p>© 2024 NEXUS AI - All Rights Reserved</p>
+        <!-- AIMBOT MODULE -->
+        <div class="module-section">
+            <h2 class="module-title">PRECISION AIMBOT SYSTEM</h2>
+            <div class="button-grid">
+                <div class="nexus-button" onclick="toggleAimbot('head')">
+                    Auto Headshot
+                    <div class="status-indicator" id="status-head"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleAimbot('smooth')">
+                    30000 DPI Smoothing
+                    <div class="status-indicator" id="status-smooth"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleAimbot('recoil')">
+                    No Recoil
+                    <div class="status-indicator" id="status-recoil"></div>
+                </div>
+                <div class="nexus-button" onclick="toggleAimbot('trigger')">
+                    Trigger Bot
+                    <div class="status-indicator" id="status-trigger"></div>
+                </div>
+            </div>
+            
+            <div class="settings-panel">
+                <h3>Aimbot Settings</h3>
+                <div class="slider-container">
+                    <label>FOV: <span id="fov-value">360°</span></label>
+                    <input type="range" min="10" max="360" value="360" onchange="updateFOV(this.value)">
+                </div>
+                <div class="slider-container">
+                    <label>Smoothness: <span id="smooth-value">100%</span></label>
+                    <input type="range" min="1" max="100" value="100" onchange="updateSmooth(this.value)">
+                </div>
+            </div>
+        </div>
+        
+        <!-- SYSTEM LOG -->
+        <div class="module-section">
+            <h2 class="module-title">SYSTEM MONITOR</h2>
+            <div class="log-container" id="systemLog">
+                <div class="log-entry log-success">[SYSTEM] NEXUS PANEL Initialized</div>
+                <div class="log-entry log-success">[MEMORY] Game Process Hooked: libil2cpp.so</div>
+                <div class="log-entry log-success">[SECURITY] Bypass Systems Ready</div>
+            </div>
         </div>
     </div>
 
     <script>
-        const API_URL = 'getkey.php';
-        let currentKey = '';
-        
-        function log(message) {
-            const console = document.getElementById('logConsole');
-            const time = new Date().toLocaleTimeString();
-            const entry = `<div class="log-entry"><span class="log-time">[${time}]</span> ${message}</div>`;
-            console.innerHTML += entry;
-            console.scrollTop = console.scrollHeight;
-            
-            // Update key count
-            if (message.includes('Key generated')) {
-                const countElem = document.getElementById('keyCount');
-                let count = parseInt(countElem.textContent);
-                countElem.textContent = count + 1;
+        // System State
+        const systemState = {
+            bypass: {
+                ac: false,
+                ban: false,
+                scan: false,
+                garena: false
+            },
+            hologram: {
+                wall: false,
+                enemy: false,
+                skeleton: false,
+                item: false
+            },
+            aimbot: {
+                head: false,
+                smooth: false,
+                recoil: false,
+                trigger: false
             }
+        };
+        
+        // System Log
+        function addLog(message, type = 'success') {
+            const log = document.getElementById('systemLog');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
         }
         
-        async function generateKey(quantity = 1) {
-            const startTime = Date.now();
-            showLoader(true);
-            log(`Requesting ${quantity} key(s)...`);
+        // Bypass Functions
+        function toggleBypass(type) {
+            systemState.bypass[type] = !systemState.bypass[type];
+            const status = document.getElementById(`status-${type}`);
+            const button = status.parentElement;
             
-            try {
-                const response = await fetch(`${API_URL}?quantity=${quantity}`, {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Cache-Control': 'no-cache'
-                    }
-                });
+            if(systemState.bypass[type]) {
+                status.classList.add('status-active');
+                button.classList.add('button-active');
+                addLog(`[BYPASS] ${type.toUpperCase()} Activated`, 'success');
                 
-                const data = await response.json();
-                const endTime = Date.now();
-                document.getElementById('responseTime').textContent = `${endTime - startTime}ms`;
-                
-                if (data.status === 'success') {
-                    if (quantity === 1) {
-                        displaySingleKey(data.data);
-                    } else {
-                        displayMultipleKeys(data.data);
-                    }
-                    log(`✅ Successfully generated ${quantity} key(s)`);
-                } else {
-                    throw new Error('Server returned error');
+                // Simulate bypass activation
+                switch(type) {
+                    case 'ac':
+                        simulateBypassAC();
+                        break;
+                    case 'ban':
+                        simulateAntiBan();
+                        break;
+                    case 'scan':
+                        simulateMemoryEvasion();
+                        break;
+                    case 'garena':
+                        simulateGarenaBypass();
+                        break;
                 }
-            } catch (error) {
-                log(`❌ Error: ${error.message}`);
-                // Fallback to local generation
-                generateLocalKey(quantity);
-            } finally {
-                showLoader(false);
-            }
-        }
-        
-        function displaySingleKey(keyData) {
-            currentKey = keyData.key;
-            document.getElementById('keyDisplay').textContent = currentKey;
-            document.getElementById('keyType').textContent = keyData.type || 'Premium';
-            document.getElementById('validUntil').textContent = keyData.valid_until || 'Unknown';
-            document.getElementById('keySource').textContent = keyData.source || 'NEXUS Generator';
-            
-            const resultBox = document.getElementById('resultBox');
-            resultBox.classList.add('active');
-            resultBox.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function displayMultipleKeys(keysArray) {
-            let keysHtml = '';
-            if (Array.isArray(keysArray)) {
-                keysArray.forEach((keyObj, index) => {
-                    keysHtml += `<div style="margin: 10px 0; padding: 10px; background: rgba(0,50,0,0.3); border-radius: 5px;">
-                        <strong>Key ${index + 1}:</strong> ${keyObj.key}<br>
-                        <small>Type: ${keyObj.type} | Valid until: ${keyObj.valid_until}</small>
-                    </div>`;
-                });
-            }
-            document.getElementById('keyDisplay').innerHTML = keysHtml;
-            document.getElementById('keyType').textContent = 'Multiple';
-            document.getElementById('validUntil').textContent = 'Various';
-            document.getElementById('keySource').textContent = 'Bulk Generation';
-            
-            const resultBox = document.getElementById('resultBox');
-            resultBox.classList.add('active');
-            resultBox.scrollIntoView({ behavior: 'smooth' });
-            
-            // Set first key as current for copying
-            if (Array.isArray(keysArray) && keysArray[0]) {
-                currentKey = keysArray[0].key;
-            }
-        }
-        
-        function generateLocalKey(quantity = 1) {
-            log('⚠️ Using local key generator (fallback mode)');
-            
-            const keys = [];
-            for (let i = 0; i < quantity; i++) {
-                const prefixes = ['FF', 'VIP', 'GOLD', 'DIAMOND', 'PREMIUM'];
-                const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-                const timestamp = Date.now().toString(36).toUpperCase();
-                const random = Math.random().toString(36).substring(2, 10).toUpperCase();
-                const key = `${prefix}-${timestamp}-${random}`;
-                
-                keys.push({
-                    key: key,
-                    type: 'local',
-                    source: 'fallback_generator',
-                    valid_until: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-                });
-            }
-            
-            if (quantity === 1) {
-                displaySingleKey(keys[0]);
             } else {
-                displayMultipleKeys(keys);
+                status.classList.remove('status-active');
+                button.classList.remove('button-active');
+                addLog(`[BYPASS] ${type.toUpperCase()} Deactivated`, 'warning');
             }
         }
         
-        function generateBulk() {
-            generateKey(10);
+        function activateFullBypass() {
+            for(const type in systemState.bypass) {
+                systemState.bypass[type] = true;
+                document.getElementById(`status-${type}`).classList.add('status-active');
+                document.querySelector(`[onclick="toggleBypass('${type}')"]`).classList.add('button-active');
+            }
+            addLog('[SYSTEM] Full Bypass Suite Activated', 'success');
+            simulateFullProtection();
         }
         
-        async function verifyKey() {
-            const key = prompt('Enter key to verify:');
-            if (!key) return;
+        // Hologram Functions
+        function toggleHologram(type) {
+            systemState.hologram[type] = !systemState.hologram[type];
+            const status = document.getElementById(`status-${type}`);
+            const button = status.parentElement;
             
-            showLoader(true);
-            log(`Verifying key: ${key.substring(0, 10)}...`);
-            
-            try {
-                const response = await fetch(`${API_URL}?action=verify&key=${encodeURIComponent(key)}`);
-                const data = await response.json();
-                
-                if (data.valid) {
-                    alert(`✅ Key is VALID!\nExpiry: ${data.expiry}`);
-                    log(`Key verification: VALID (expires: ${data.expiry})`);
-                } else {
-                    alert('❌ Key is INVALID or expired!');
-                    log('Key verification: INVALID');
-                }
-            } catch (error) {
-                alert('⚠️ Verification service unavailable');
-                log('Verification failed: Service error');
-            } finally {
-                showLoader(false);
+            if(systemState.hologram[type]) {
+                status.classList.add('status-active');
+                button.classList.add('button-active');
+                addLog(`[HOLOGRAM] ${type.toUpperCase()} Enabled`, 'success');
+                renderHologramPreview();
+            } else {
+                status.classList.remove('status-active');
+                button.classList.remove('button-active');
+                addLog(`[HOLOGRAM] ${type.toUpperCase()} Disabled`, 'warning');
+                clearHologramPreview();
             }
         }
         
-        async function getStats() {
-            showLoader(true);
-            log('Fetching system statistics...');
+        function renderHologramPreview() {
+            const preview = document.getElementById('hologramPreview');
+            preview.innerHTML = '';
             
-            try {
-                const response = await fetch(`${API_URL}?action=stats`);
-                const data = await response.json();
-                
-                const stats = data.stats;
-                const message = `
-📊 SYSTEM STATISTICS:
-• Total Requests: ${stats.total_requests}
-• Keys Generated Today: ${stats.keys_generated_today}
-• Success Rate: ${stats.success_rate}
-• Uptime: ${stats.uptime}
-• Last Update: ${stats.last_update}
-                `;
-                
-                alert(message);
-                log('Statistics retrieved successfully');
-            } catch (error) {
-                alert('⚠️ Could not retrieve statistics');
-                log('Statistics fetch failed');
-            } finally {
-                showLoader(false);
-            }
-        }
-        
-        function copyKey() {
-            if (!currentKey) {
-                alert('No key to copy!');
-                return;
-            }
+            // Create enemy holograms
+            const enemies = [
+                {x: '20%', y: '50%', color: '#ff0055'},
+                {x: '50%', y: '30%', color: '#ff5500'},
+                {x: '80%', y: '70%', color: '#ff00ff'}
+            ];
             
-            navigator.clipboard.writeText(currentKey).then(() => {
-                alert('✅ Key copied to clipboard!');
-                log('Key copied to clipboard');
-            }).catch(err => {
-                // Fallback method
-                const textArea = document.createElement('textarea');
-                textArea.value = currentKey;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('✅ Key copied!');
-                log('Key copied (fallback method)');
+            enemies.forEach(enemy => {
+                const div = document.createElement('div');
+                div.className = 'hologram-enemy';
+                div.style.left = enemy.x;
+                div.style.top = enemy.y;
+                div.style.background = enemy.color;
+                preview.appendChild(div);
             });
         }
         
-        function clearConsole() {
-            document.getElementById('logConsole').innerHTML = 
-                '<div class="log-entry"><span class="log-time">[' + 
-                new Date().toLocaleTimeString() + 
-                ']</span> Console cleared.</div>';
-        }
-        
-        function showLoader(show) {
-            document.getElementById('loader').style.display = show ? 'block' : 'none';
-            document.getElementById('statusText').textContent = show ? '🔄 PROCESSING' : '🟢 ONLINE';
-            document.getElementById('statusText').style.color = show ? '#ff0' : '#0f0';
-        }
-        
-        // Auto-start
-        document.addEventListener('DOMContentLoaded', () => {
-            log('NEXUS Key Generator initialized');
-            log('System ready for bypass operations');
+        // Aimbot Functions
+        function toggleAimbot(type) {
+            systemState.aimbot[type] = !systemState.aimbot[type];
+            const status = document.getElementById(`status-${type}`);
+            const button = status.parentElement;
             
-            // Simulate some initial activity
-            setTimeout(() => {
-                document.getElementById('keyCount').textContent = Math.floor(Math.random() * 1000) + 500;
-            }, 1000);
-        });
+            if(systemState.aimbot[type]) {
+                status.classList.add('status-active');
+                button.classList.add('button-active');
+                addLog(`[AIMBOT] ${type.toUpperCase()} Activated`, 'success');
+            } else {
+                status.classList.remove('status-active');
+                button.classList.remove('button-active');
+                addLog(`[AIMBOT] ${type.toUpperCase()} Deactivated`, 'warning');
+            }
+        }
         
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Ctrl+G for single key
-            if (e.ctrlKey && e.key === 'g') {
-                e.preventDefault();
-                generateKey(1);
-            }
-            // Ctrl+B for bulk
-            if (e.ctrlKey && e.key === 'b') {
-                e.preventDefault();
-                generateBulk();
-            }
-        });
+        // Simulation Functions
+        function simulateBypassAC() {
+            setTimeout(() => {
+                addLog('[BYPASS] Anti-Cheat Signature Spoofed', 'success');
+                addLog('[MEMORY] Integrity Checks Disabled', 'success');
+            }, 500);
+        }
+        
+        function simulateAntiBan() {
+            setTimeout(() => {
+                addLog('[SECURITY] Hardware ID Spoofed', 'success');
+                addLog('[NETWORK] Encrypted Packet Injection', 'success');
+            }, 500);
+        }
+        
+        function simulateFullProtection() {
+            setTimeout(() => {
+                addLog('[SYSTEM] Multi-Layer Protection Active', 'success');
+                addLog('[GARENA] Core Systems Hijacked', 'success');
+                addLog('[STATUS] Account Protection: 100%', 'success');
+            }, 1000);
+        }
+        
+        // UI Updates
+        function updateSecurity(value) {
+            document.getElementById('security-level').textContent = 
+                value === '10' ? 'MAX' : `LEVEL ${value}`;
+        }
+        
+        function updateFOV(value) {
+            document.getElementById('fov-value').textContent = `${value}°`;
+        }
+        
+        function updateSmooth(value) {
+            document.getElementById('smooth-value').textContent = `${value}%`;
+        }
+        
+        // Initialize
+        window.onload = function() {
+            addLog('[UI] Panel Interface Loaded', 'success');
+            addLog('[READY] All Systems Operational', 'success');
+        };
     </script>
 </body>
 </html>
