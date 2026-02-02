@@ -1,523 +1,237 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arsalways Control Panel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
-            color: #f1f1f1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ff0080, #00ffcc);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 0 25px #ff0080aa;
-            animation: glow 2s infinite alternate;
-        }
-        @keyframes glow {
-            0% { box-shadow: 0 0 25px #ff0080aa; }
-            100% { box-shadow: 0 0 35px #00ffccaa; }
-        }
-        .logo i {
-            font-size: 70px;
-            color: white;
-        }
-        .nama {
-            font-size: 2.8rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, #ff0080, #00ffcc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-        .tagline {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-        }
-        .container {
-            width: 100%;
-            max-width: 650px;
-            background: rgba(30, 30, 46, 0.9);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
-        }
-        .input-group {
-            margin-bottom: 25px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #00ffcc;
-            font-weight: 600;
-        }
-        .input-group input, .input-group textarea {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid #444;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-            resize: vertical;
-        }
-        .input-group textarea {
-            min-height: 130px;
-            font-family: monospace;
-            line-height: 1.4;
-        }
-        .input-group input:focus, .input-group textarea:focus {
-            border-color: #00ffcc;
-            box-shadow: 0 0 10px #00ffcc33;
-        }
-        .fitur-title {
-            color: #ff0080;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-        .fitur-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        @media (max-width: 600px) {
-            .fitur-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 400px) {
-            .fitur-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        .fitur-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid #444;
-            border-radius: 10px;
-            padding: 16px 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #ccc;
-            text-align: center;
-            font-weight: 600;
-            user-select: none;
-            font-size: 0.9rem;
-        }
-        .fitur-btn:hover {
-            background: rgba(255, 0, 128, 0.1);
-            border-color: #ff0080;
-        }
-        .fitur-btn.active {
-            background: rgba(255, 0, 128, 0.25);
-            border-color: #ff0080;
-            color: #ff0080;
-            box-shadow: 0 0 15px #ff008055;
-        }
-        .text-desc {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 255, 204, 0.05);
-            border-radius: 10px;
-            border-left: 4px solid #00ffcc;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #aaddff;
-            min-height: 85px;
-        }
-        .text-desc .lag {
-            color: #ffcc00;
-            font-weight: bold;
-        }
-        .text-desc .crash {
-            color: #ff5555;
-            font-weight: bold;
-        }
-        .pilih-fitur-label {
-            background: rgba(255, 0, 128, 0.1);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-            color: #ff0080;
-            border: 1px dashed #ff0080;
-            font-size: 1.1rem;
-        }
-        .slider-group {
-            margin-bottom: 30px;
-        }
-        .slider-group label {
-            display: block;
-            margin-bottom: 10px;
-            color: #00ffcc;
-            font-weight: 600;
-        }
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .slider-value {
-            font-weight: 900;
-            font-size: 2rem;
-            color: #ff0080;
-            min-width: 90px;
-            text-align: center;
-            text-shadow: 0 0 10px #ff0080aa;
-        }
-        .slider {
-            flex: 1;
-            -webkit-appearance: none;
-            height: 14px;
-            border-radius: 10px;
-            background: linear-gradient(90deg, #00ffcc, #ff0080, #ff0000);
-            outline: none;
-        }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: white;
-            cursor: pointer;
-            box-shadow: 0 0 15px black;
-            border: 3px solid #ff0080;
-            transition: 0.2s;
-        }
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-            border-color: #00ffcc;
-        }
-        .kirim-btn {
-            width: 100%;
-            padding: 22px;
-            background: linear-gradient(90deg, #ff0080, #ff3333, #ff0000);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.5rem;
-            font-weight: 900;
-            cursor: pointer;
-            transition: 0.3s;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-        .kirim-btn:hover {
-            background: linear-gradient(90deg, #ff3333, #ff0000, #cc0000);
-            box-shadow: 0 0 35px #ff5555aa;
-            transform: translateY(-5px);
-        }
-        .kirim-btn:active {
-            transform: translateY(0);
-        }
-        .footer {
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 10px;
-        }
-        .warning {
-            color: #ffcc00;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        .custom-input {
-            display: none;
-            margin-top: 15px;
-        }
-        .info-box {
-            background: rgba(255, 0, 128, 0.08);
-            border: 1px solid #ff0080;
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #ffaaaa;
-        }
-        .url-preview {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 15px;
-            font-size: 0.8rem;
-            word-break: break-all;
-            color: #aaddff;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arsalways Control Panel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+body{background: linear-gradient(135deg,#0c0c0c,#1a1a2e);color:#f1f1f1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px;overflow-x:hidden;position:relative;}
+.header{text-align:center;margin-bottom:30px;}
+.logo{width:150px;height:150px;border-radius:50%;background:linear-gradient(45deg,#ff0080,#00ffcc);display:flex;align-items:center;justify-content:center;margin:0 auto 15px;box-shadow:0 0 25px #ff0080aa;animation:glow 2s infinite alternate;}
+@keyframes glow{0%{box-shadow:0 0 25px #ff0080aa;}100%{box-shadow:0 0 35px #00ffccaa;}}
+.logo i{font-size:70px;color:white;}
+.nama{font-size:2.8rem;font-weight:900;background:linear-gradient(90deg,#ff0080,#00ffcc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;margin-bottom:5px;}
+.tagline{color:#aaa;font-size:0.9rem;margin-bottom:30px;}
+.container{width:100%;max-width:650px;background:rgba(30,30,46,0.9);border-radius:20px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,0.5);border:1px solid #333;position:relative;}
+.input-group{margin-bottom:25px;position:relative;}
+.input-group label{display:block;margin-bottom:8px;color:#00ffcc;font-weight:600;}
+.input-group input,.input-group textarea{width:100%;padding:15px;background:rgba(255,255,255,0.07);border:1px solid #444;border-radius:10px;color:white;font-size:1rem;outline:none;transition:0.3s;resize:vertical;}
+.input-group textarea{min-height:130px;font-family:monospace;line-height:1.4;}
+.input-group input:focus,.input-group textarea:focus{border-color:#00ffcc;box-shadow:0 0 10px #00ffcc33;}
+.fitur-title{color:#ff0080;margin-bottom:10px;font-size:1.2rem;font-weight:700;}
+.fitur-container{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:25px;}
+@media(max-width:600px){.fitur-container{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:400px){.fitur-container{grid-template-columns:1fr;}}
+.fitur-btn{background:rgba(255,255,255,0.05);border:2px solid #444;border-radius:10px;padding:16px 8px;cursor:pointer;transition:all 0.3s;color:#ccc;text-align:center;font-weight:600;user-select:none;font-size:0.9rem;}
+.fitur-btn:hover{background:rgba(255,0,128,0.1);border-color:#ff0080;}
+.fitur-btn.active{background:rgba(255,0,128,0.25);border-color:#ff0080;color:#ff0080;box-shadow:0 0 15px #ff008055;}
+.text-desc{margin-top:20px;padding:15px;background:rgba(0,255,204,0.05);border-radius:10px;border-left:4px solid #00ffcc;font-size:0.95rem;line-height:1.5;color:#aaddff;min-height:85px;}
+.pilih-fitur-label{background:rgba(255,0,128,0.1);padding:12px;border-radius:10px;margin-bottom:20px;text-align:center;font-weight:bold;color:#ff0080;border:1px dashed #ff0080;font-size:1.1rem;}
+.slider-group{margin-bottom:30px;}
+.slider-group label{display:block;margin-bottom:10px;color:#00ffcc;font-weight:600;}
+.slider-container{display:flex;align-items:center;gap:15px;}
+.slider-value{font-weight:900;font-size:2rem;color:#ff0080;min-width:90px;text-align:center;text-shadow:0 0 10px #ff0080aa;}
+.slider{flex:1;-webkit-appearance:none;height:14px;border-radius:10px;background:linear-gradient(90deg,#00ffcc,#ff0080,#ff0000);outline:none;}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:white;cursor:pointer;box-shadow:0 0 15px black;border:3px solid #ff0080;transition:0.2s;}
+.slider::-webkit-slider-thumb:hover{transform:scale(1.1);border-color:#00ffcc;}
+.kirim-btn{width:100%;padding:22px;background:linear-gradient(90deg,#ff0080,#ff3333,#ff0000);color:white;border:none;border-radius:15px;font-size:1.5rem;font-weight:900;cursor:pointer;transition:0.3s;letter-spacing:2px;margin-top:10px;text-shadow:0 2px 5px rgba(0,0,0,0.5);}
+.kirim-btn:hover{background:linear-gradient(90deg,#ff3333,#ff0000,#cc0000);box-shadow:0 0 35px #ff5555aa;transform:translateY(-5px);}
+.kirim-btn:active{transform:translateY(0);}
+.footer{margin-top:30px;color:#666;font-size:0.8rem;text-align:center;padding:10px;}
+.warning{color:#ffcc00;font-size:0.85rem;margin-top:5px;font-style:italic;}
+.custom-input{display:none;margin-top:15px;}
+.info-box{background:rgba(255,0,128,0.08);border:1px solid #ff0080;border-radius:10px;padding:12px;margin-top:20px;font-size:0.85rem;color:#ffaaaa;}
+.url-preview{background:rgba(0,0,0,0.3);border:1px solid #444;border-radius:8px;padding:10px;margin-top:15px;font-size:0.8rem;word-break:break-all;color:#aaddff;display:none;}
+#user-box{position:absolute;top:20px;left:20px;background:rgba(0,0,0,0.6);padding:15px;border-radius:15px 0 15px 0;width:200px;}
+#user-box div{margin-bottom:8px;font-size:0.9rem;}
+#mode-popup{position:absolute;top:45px;left:0;background:#111;border:1px solid #555;padding:10px;border-radius:10px;display:none;flex-direction:column;gap:10px;z-index:10;width:150px;}
+.mode-btn{background:#222;color:#fff;padding:8px;border:none;border-radius:8px;cursor:pointer;}
+.mode-btn:hover{background:#00ffcc;color:#000;}
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <i class="fas fa-bolt"></i>
+
+<div class="header">
+    <div class="logo"><i class="fas fa-bolt"></i></div>
+    <div class="nama">Arsalways</div>
+    <div class="tagline">ULTIMATE WhatsApp Spam Engine</div>
+</div>
+
+<div id="user-box">
+    <div>Pemakaian Anda: <span id="usage-count">0</span></div>
+    <div>Pengguna Online: <span id="online-count">0</span></div>
+</div>
+
+<div class="container">
+    <div class="input-group">
+        <label for="nomor"><i class="fas fa-phone-alt"></i> Nomor / URL Grup</label>
+        <input type="text" id="nomor" placeholder="Masukkan nomor atau URL grup">
+        <button id="pilih-mode" class="fitur-btn" style="width:100%;margin-top:10px;">Pilih Mode</button>
+        <div id="mode-popup">
+            <button class="mode-btn" data-mode="wa">WA</button>
+            <button class="mode-btn" data-mode="grup">Grup</button>
         </div>
-        <div class="nama">Arsalways</div>
-        <div class="tagline">ULTIMATE WhatsApp Spam Engine</div>
+        <div class="warning" id="nomor-warning">Masukkan sesuai mode</div>
     </div>
 
-    <div class="container">
-        <div class="input-group">
-            <label for="nomor"><i class="fas fa-phone-alt"></i> Nomor Target WhatsApp (contoh: 81234567890)</label>
-            <input type="text" id="nomor" placeholder="81234567890 (tanpa +62)">
-            <div class="warning">Masukkan tanpa +62. Contoh: 81234567890</div>
-        </div>
-
-        <div class="fitur-title">PILIH METODE SPAM:</div>
-        <div class="fitur-container">
-            <div class="fitur-btn" data-fitur="spam1">🔥 SPAM ACAK 1</div>
-            <div class="fitur-btn" data-fitur="spam2">💀 SPAM ACAK 2</div>
-            <div class="fitur-btn" data-fitur="spam3">👹 SPAM ACAK 3</div>
-            <div class="fitur-btn" data-fitur="spam4">🤖 SPAM ACAK 4</div>
-            <div class="fitur-btn" data-fitur="spam5">☠️ SPAM ACAK 5</div>
-            <div class="fitur-btn" data-fitur="custom">✏️ CUSTOM MODE</div>
-        </div>
-
-        <div class="pilih-fitur-label" id="label-fitur">Pilih Fitur → belum dipilih</div>
-
-        <div class="text-desc" id="text-desc">
-            Pilih fitur di atas untuk mengaktifkan spam acak. Semakin tinggi slider, semakin banyak spam yang dikirim.
-        </div>
-
-        <div class="input-group custom-input" id="custom-input">
-            <label for="custom-text"><i class="fas fa-edit"></i> Masukkan Teks Spam Custom:</label>
-            <textarea id="custom-text" placeholder="Tulis teks spam custom disini..."></textarea>
-        </div>
-
-        <div class="slider-group">
-            <label for="slider"><i class="fas fa-sliders-h"></i> JUMLAH SPAM: <span id="slider-value">1000</span>x</label>
-            <div class="slider-container">
-                <div class="slider-value" id="value-box">1000</div>
-                <input type="range" min="10" max="200000" value="1000" class="slider" id="slider">
-            </div>
-            <div class="warning">Slider: 10-200000. Semakin tinggi, spam semakin banyak!</div>
-        </div>
-
-        <div class="info-box">
-            <i class="fas fa-exclamation-triangle"></i> SPAM AKAN DIGANDAKAN SESUAI NILAI SLIDER. Contoh: slider 1000 = spam 1000x lipat.
-        </div>
-
-        <div class="url-preview" id="url-preview">
-            <strong>Preview URL WhatsApp:</strong><br>
-            <span id="url-text">https://wa.me/62XXXXXXXXXX?text=Spam+akan+muncul+disini...</span>
-        </div>
-
-        <button class="kirim-btn" id="kirim">
-            <i class="fab fa-whatsapp"></i> BUKA WHATSAPP DENGAN SPAM
-        </button>
+    <div class="fitur-title">PILIH METODE SPAM:</div>
+    <div class="fitur-container">
+        <div class="fitur-btn" data-fitur="spam1">🔥 SPAM ACAK 1</div>
+        <div class="fitur-btn" data-fitur="spam2">💀 SPAM ACAK 2</div>
+        <div class="fitur-btn" data-fitur="spam3">👹 SPAM ACAK 3</div>
+        <div class="fitur-btn" data-fitur="spam4">🤖 SPAM ACAK 4</div>
+        <div class="fitur-btn" data-fitur="spam5">☠️ SPAM ACAK 5</div>
+        <div class="fitur-btn" data-fitur="custom">✏️ CUSTOM MODE</div>
     </div>
 
-    <div class="footer">
-        ©2026 Arsalways Dark Engine | Spam acak sesuai pengaturan slider.
+    <div class="pilih-fitur-label" id="label-fitur">Pilih Fitur → belum dipilih</div>
+    <div class="text-desc" id="text-desc">Pilih fitur di atas untuk mengaktifkan spam acak. Semakin tinggi slider, semakin banyak spam yang dikirim.</div>
+
+    <div class="input-group custom-input" id="custom-input">
+        <label for="custom-text"><i class="fas fa-edit"></i> Masukkan Teks Spam Custom:</label>
+        <textarea id="custom-text" placeholder="Tulis teks spam custom disini..."></textarea>
     </div>
 
-    <script>
-        // Fungsi generate text acak
-        function generateRandomSpam() {
-            const chars = 'ḁ̊j̥̊j̥̊j̤̮w̤̮j̤̮w̤̮s̤̮s̥̊h̥̊h̥̊e̥̊a͜͡y͜͡w͜͡b̥̊s̥̊CORRUPTED TEXT: ḁ̊j̥̊j̥̊j̤̮w̤̮
-[̲̅j][̲̅a][̲̅h][̲̅w] 
-h⃟ y⃟ a⃟ y⃟ u⃟ 
-🅰🆄🆄🆆b⃢ w⃢ j⃢
-BUFFER OVERFLOW DETECTED!Z̴̷̊̋Å̴̷̋L̴̷̊̋G̴̷̊̋O̴̷̊̋ T̴̷̊̋E̴̷̊̋X̴̷̊̋T̴̷̊̋
-💥☠️🤯👾💀👻🎃😈👹👺
-ḁ̊j̥̊j̥̊j̤̮w̤̮ [̲̅j][̲̅a] h⃟ y⃟
-u⃠a⃠h⃠s⃠e⃠j⃠ 🅰🆄🆄🆆🎬 VIDEO 100GB TERKIRIM! LOADING... ⚠️⚠️⚠️
-ḁ̊j̥̊j̥̊j̤̮w̤̮s̤̮s̥̊h̥̊h̥̊e̥̊a͜͡y͜͡w͜͡
-[̲̅j][̲̅a][̅⃟ h⃟ y⃟ a⃟] u⃠a⃠h⃠s⃠e⃠j⃠
-🅰🆄🆄🆆 CRASH SYSTEM DETECTED!ḁ̊j̥̊j̥̊j̤̮w̤̮j̤̮w̤̮s̤̮s̥̊h̥̊h̥̊e̥̊a͜͡y͜͡w͜͡b̥̊s̥̊ [̲̅j][̲̅a] h⃟ y⃟ a⃟ y⃟ u⃟ u⃠a⃠h⃠s⃠e⃠j⃠ w⃟ s⃟ a⃟ h⃟ h⃟ s⃟h⃤a⃤h⃤w⃤h⃤s⃤ a⃟ u⃟ h⃟ e⃟ j⃤a⃤w⃤s⃤h⃤ e⃟ h⃢ a⃢ 🅰🆄🆄🆆b⃢ w⃢ j⃢ s⃢ a⃢ j⃟ s⃟ ][̲̅w][̲̅j][̲̅j][̲̅s][̲̅h] [̲̅j][̲̅a][̅⃟ h⃟ y⃟ a⃟ y⃟ u⃟ u⃠a⃠h⃠s⃠e⃠j⃠ w⃟ s⃟ a⃟ h⃟ h⃟ s⃟h⃤a⃤h⃤w⃤h⃤s⃤ a⃟ u⃟ h⃟ e⃟ j⃤a⃤w⃤s⃤h⃤ e⃟ h⃢ a⃢ 🅰🆄🆄🆆b⃢ w⃢ j⃢ s⃢ a⃢ j⃟ s⃟ ][̲̅w][̲̅j][̲̅j][̲̅s][̲̅h]';
-            const parts = chars.split(' ');
-            let result = '';
-            const length = Math.floor(Math.random() * 10) + 5;
-            
-            for (let i = 0; i < length; i++) {
-                result += parts[Math.floor(Math.random() * parts.length)] + ' ';
-            }
-            
-            return result.trim();
-        }
+    <div class="slider-group">
+        <label for="slider"><i class="fas fa-sliders-h"></i> JUMLAH SPAM: <span id="slider-value">1000</span>x</label>
+        <div class="slider-container">
+            <div class="slider-value" id="value-box">1000</div>
+            <input type="range" min="10" max="200000" value="1000" class="slider" id="slider">
+        </div>
+    </div>
 
-        // Data fitur
-        const fiturData = {
-            spam1: { name: "🔥 SPAM ACAK 1" },
-            spam2: { name: "💀 SPAM ACAK 2" },
-            spam3: { name: "👹 SPAM ACAK 3" },
-            spam4: { name: "🤖 SPAM ACAK 4" },
-            spam5: { name: "☠️ SPAM ACAK 5" },
-            custom: { name: "✏️ CUSTOM MODE" }
-        };
+    <div class="info-box"><i class="fas fa-exclamation-triangle"></i> SPAM AKAN DIGANDAKAN SESUAI NILAI SLIDER. Contoh: slider 1000 = spam 1000x lipat.</div>
 
-        let fiturAktif = null;
-        const semuaTombol = document.querySelectorAll('.fitur-btn');
-        const labelFitur = document.getElementById('label-fitur');
-        const textDesc = document.getElementById('text-desc');
-        const slider = document.getElementById('slider');
-        const sliderValue = document.getElementById('slider-value');
-        const valueBox = document.getElementById('value-box');
-        const nomorInput = document.getElementById('nomor');
-        const kirimBtn = document.getElementById('kirim');
-        const customInput = document.getElementById('custom-input');
-        const customText = document.getElementById('custom-text');
-        const urlPreview = document.getElementById('url-preview');
-        const urlText = document.getElementById('url-text');
+    <div class="url-preview" id="url-preview">
+        <strong>Preview URL WhatsApp:</strong><br>
+        <span id="url-text">https://wa.me/62XXXXXXXXXX?text=Spam+akan+muncul+disini...</span>
+    </div>
 
-        // Update URL preview
-        function updateUrlPreview() {
-            const nomor = nomorInput.value.trim();
-            if (!nomor || !fiturAktif) {
-                urlPreview.style.display = 'none';
-                return;
-            }
+    <button class="kirim-btn" id="kirim"><i class="fab fa-whatsapp"></i> BUKA WHATSAPP DENGAN SPAM</button>
+</div>
 
-            // Generate payload sementara untuk preview
-            let payload = "";
-            if (fiturAktif === 'custom') {
-                payload = customText.value.trim().substring(0, 50) + '...';
-            } else {
-                payload = generateRandomSpam().substring(0, 50) + '...';
-            }
+<div class="footer">©2026 Arsalways Dark Engine | Spam acak sesuai pengaturan slider.</div>
 
-            const multiplier = parseInt(slider.value);
-            const encodedPayload = encodeURIComponent(payload);
-            
-            // Format: https://wa.me/62XXXXXXXXXX?text=SPAM_TEXT
-            const previewUrl = `https://wa.me/62${nomor}?text=${encodedPayload}`;
-            urlText.textContent = previewUrl;
-            urlPreview.style.display = 'block';
-        }
+<script>
+// ===== Firebase Setup =====
+// GANTI DENGAN FIREBASE PROJECT MU
+const firebaseConfig = {
+  apiKey: "AIzaSyAF3B3_Bq-Q9ulQdxfXHkCBqMTIDlx0sqY",
+  authDomain: "panel-user-b78ff.firebaseapp.com",
+  databaseURL: "https://panel-user-b78ff-default-rtdb.firebaseio.com",
+  projectId: "panel-user-b78ff",
+  storageBucket: "panel-user-b78ff.firebasestorage.app",
+  messagingSenderId: "86797928744",
+  appId: "1:86797928744:web:cb85dd498c6cf3b659281d"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-        // Handler klik fitur
-        semuaTombol.forEach(btn => {
-            btn.addEventListener('click', function() {
-                semuaTombol.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                fiturAktif = this.getAttribute('data-fitur');
-                const data = fiturData[fiturAktif];
-                labelFitur.innerHTML = `<i class="fas fa-check"></i> Fitur Aktif: <strong>${data.name}</strong>`;
-                
-                if (fiturAktif === 'custom') {
-                    textDesc.innerHTML = `Gunakan textarea di bawah untuk menulis spam custom.`;
-                    customInput.style.display = 'block';
-                } else {
-                    textDesc.innerHTML = `Spam acak akan digenerate dengan karakter khusus. Slider menentukan jumlah pengulangan.`;
-                    customInput.style.display = 'none';
-                }
-                
-                updateUrlPreview();
-            });
-        });
+// Realtime Online Users
+const onlineRef = db.ref("online_users");
+let userSessionRef = null;
+function addOnlineUser(){userSessionRef=onlineRef.push(true);}
+function removeOnlineUser(){if(userSessionRef) userSessionRef.remove();}
+onlineRef.on("value",snap=>{document.getElementById("online-count").innerText=snap.numChildren();});
+window.addEventListener("beforeunload",removeOnlineUser);
+addOnlineUser();
 
-        // Handler slider
-        slider.addEventListener('input', function() {
-            const val = this.value;
-            sliderValue.textContent = val;
-            valueBox.textContent = val;
-            updateUrlPreview();
-        });
+// ===== Usage Counter =====
+let usageCount = parseInt(localStorage.getItem("usageCount")||"0");
+document.getElementById("usage-count").innerText = usageCount;
 
-        // Handler input nomor
-        nomorInput.addEventListener('input', updateUrlPreview);
+// ===== Mode Pilih =====
+const pilihBtn=document.getElementById("pilih-mode");
+const modePopup=document.getElementById("mode-popup");
+let modeSelected=null;
+const nomorInput=document.getElementById('nomor');
+pilihBtn.addEventListener("click",()=>{modePopup.style.display=(modePopup.style.display==='flex')?'none':'flex';});
+document.querySelectorAll(".mode-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        modeSelected=btn.dataset.mode;
+        modePopup.style.display="none";
+        pilihBtn.innerText=`Mode: ${modeSelected.toUpperCase()}`;
+        nomorInput.placeholder = modeSelected==='wa' ? "Contoh: 883738383" : "Contoh URL Grup: https://chat.whatsapp.com/XXXXX";
+        updateUrlPreview();
+    });
+});
 
-        // Handler custom text
-        customText.addEventListener('input', updateUrlPreview);
+// ===== Fitur Spam =====
+function generateRandomSpam(){ 
+  const chars='🅰🆄🆄🆆💥☠️🤯👾💀👻🎃😈👹👺';
+  let res=''; for(let i=0;i<10;i++){res+=chars[Math.floor(Math.random()*chars.length)];} return res;
+}
+const fiturData={
+  spam1:{name:"🔥 SPAM ACAK 1"},
+  spam2:{name:"💀 SPAM ACAK 2"},
+  spam3:{name:"👹 SPAM ACAK 3"},
+  spam4:{name:"🤖 SPAM ACAK 4"},
+  spam5:{name:"☠️ SPAM ACAK 5"},
+  custom:{name:"✏️ CUSTOM MODE"}
+};
+let fiturAktif=null;
+const semuaTombol=document.querySelectorAll('.fitur-btn');
+const labelFitur=document.getElementById('label-fitur');
+const textDesc=document.getElementById('text-desc');
+const slider=document.getElementById('slider');
+const sliderValue=document.getElementById('slider-value');
+const valueBox=document.getElementById('value-box');
+const kirimBtn=document.getElementById('kirim');
+const customInput=document.getElementById('custom-input');
+const customText=document.getElementById('custom-text');
+const urlPreview=document.getElementById('url-preview');
+const urlText=document.getElementById('url-text');
 
-        // Handler kirim
-        kirimBtn.addEventListener('click', function() {
-            const nomor = nomorInput.value.trim();
-            if (!nomor) {
-                alert("MASUKIN NOMOR TARGET DULU!");
-                nomorInput.focus();
-                return;
-            }
-            if (!fiturAktif) {
-                alert("PILIH FITUR DULU!");
-                return;
-            }
+function updateUrlPreview(){
+    const nomor=nomorInput.value.trim();
+    if(!nomor||!fiturAktif||!modeSelected){urlPreview.style.display='none';return;}
+    let payload=fiturAktif==='custom'?customText.value.trim().substring(0,50)+'...':generateRandomSpam().substring(0,50)+'...';
+    const encoded=encodeURIComponent(payload);
+    const waUrl=modeSelected==='grup'?nomor:`https://wa.me/62${nomor}?text=${encoded}`;
+    urlText.textContent=waUrl;
+}
 
-            const multiplier = parseInt(slider.value);
-            
-            // Generate payload sesuai fitur
-            let payload = "";
-            
-            if (fiturAktif === 'custom') {
-                payload = customText.value.trim();
-                if (!payload) {
-                    alert("ISI TEKS CUSTOM DULU!");
-                    customText.focus();
-                    return;
-                }
-            } else {
-                payload = generateRandomSpam();
-            }
+// Pilih fitur
+semuaTombol.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        semuaTombol.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        fiturAktif=btn.dataset.fitur;
+        const data=fiturData[fiturAktif];
+        labelFitur.innerHTML=`<i class="fas fa-check"></i> Fitur Aktif: <strong>${data.name}</strong>`;
+        if(fiturAktif==='custom'){customInput.style.display='block';textDesc.innerHTML='Gunakan textarea di bawah untuk menulis spam custom.';}
+        else{customInput.style.display='none';textDesc.innerHTML='Spam acak akan digenerate dengan karakter khusus. Slider menentukan jumlah pengulangan.';}
+        updateUrlPreview();
+    });
+});
 
-            // KALI lipat sesuai slider
-            const repeatCount = Math.floor(multiplier / 100);
-            const finalPayload = payload.repeat(Math.max(1, repeatCount));
+// Slider & input
+slider.addEventListener('input',()=>{sliderValue.textContent=slider.value;valueBox.textContent=slider.value;updateUrlPreview();});
+nomorInput.addEventListener('input',updateUrlPreview);
+customText.addEventListener('input',updateUrlPreview);
 
-            // Batasi maksimal 50.000 karakter
-            let finalPayloadTrimmed = finalPayload;
-            if (finalPayload.length > 50000) {
-                finalPayloadTrimmed = finalPayload.substring(0, 50000);
-            }
-
-            // Format URL WhatsApp: https://wa.me/62XXXXXXXXXX?text=SPAM_TEXT
-            const encodedText = encodeURIComponent(finalPayloadTrimmed);
-            const waUrl = `https://wa.me/62${nomor}?text=${encodedText}`;
-            
-            // Update tombol
-            this.innerHTML = `<i class="fas fa-external-link-alt"></i> MEMBUKA WHATSAPP...`;
-            this.disabled = true;
-
-            // Delay lalu buka WhatsApp
-            setTimeout(() => {
-                window.open(waUrl, '_blank');
-                this.innerHTML = `<i class="fab fa-whatsapp"></i> WHATSAPP TERBUKA!`;
-                this.style.background = "linear-gradient(90deg, #00ff80, #00ccff)";
-                
-                // Reset tombol
-                setTimeout(() => {
-                    this.innerHTML = `<i class="fab fa-whatsapp"></i> BUKA WHATSAPP DENGAN SPAM`;
-                    this.disabled = false;
-                    this.style.background = "linear-gradient(90deg, #ff0080, #ff3333, #ff0000)";
-                }, 3000);
-            }, 1000);
-        });
-
-        // Pilih fitur pertama
-        document.querySelector('.fitur-btn').click();
-    </script>
+// Kirim tombol
+kirimBtn.addEventListener('click',()=>{
+    const nomor=nomorInput.value.trim();
+    if(!nomor){alert('Masukkan nomor/grup!');return;}
+    if(!fiturAktif){alert('Pilih fitur dulu!');return;}
+    if(!modeSelected){alert('Pilih mode dulu!');return;}
+    let payload=fiturAktif==='custom'?customText.value.trim():generateRandomSpam();
+    let repeat=Math.floor(slider.value/100); repeat=Math.max(1,repeat);
+    let finalPayload=payload.repeat(repeat); 
+    if(finalPayload.length>50000) finalPayload=finalPayload.substring(0,50000);
+    const encoded=encodeURIComponent(finalPayload);
+    let waUrl=modeSelected==='grup'?nomor:`https://wa.me/62${nomor}?text=${encoded}`;
+    window.open(waUrl,'_blank');
+    // Tambah pemakaian +1 saja
+    usageCount++;
+    localStorage.setItem('usageCount',usageCount);
+    document.getElementById('usage-count').innerText=usageCount;
+});
+</script>
 </body>
-</html>
+                                </html>
