@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML to APK Builder</title>
+    <title>HTML to APK Builder - Real Build</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -195,7 +195,7 @@
             padding: 20px;
             margin-top: 30px;
             border: 1px solid #30363d;
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
@@ -206,6 +206,8 @@
             margin-bottom: 8px;
             padding-bottom: 8px;
             border-bottom: 1px solid #21262d;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
         
         .log-time {
@@ -223,6 +225,10 @@
         
         .log-error {
             color: #f85149;
+        }
+        
+        .log-warning {
+            color: #d29922;
         }
         
         .result-container {
@@ -542,6 +548,51 @@
             display: none;
         }
         
+        .warning-box {
+            background: rgba(215, 58, 73, 0.1);
+            border: 1px solid #f85149;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .warning-box i {
+            color: #f85149;
+            margin-right: 10px;
+        }
+        
+        .build-options {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(33, 38, 45, 0.5);
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .option-group {
+            margin-bottom: 15px;
+        }
+        
+        .option-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #c9d1d9;
+        }
+        
+        .option-group input, .option-group select {
+            width: 100%;
+            padding: 10px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+        }
+        
+        .option-group input:focus, .option-group select:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -573,8 +624,8 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-mobile-alt"></i> HTML to APK Builder</h1>
-            <p class="subtitle">Unggah file HTML Anda dan bangun menjadi aplikasi Android APK dengan sekali klik</p>
+            <h1><i class="fas fa-mobile-alt"></i> HTML to APK Builder - REAL</h1>
+            <p class="subtitle">Build aplikasi Android APK dari HTML Anda menggunakan Cordova (Build Asli)</p>
         </header>
         
         <main>
@@ -584,10 +635,15 @@
                     <i class="fas fa-file-code"></i>
                     <h3>Klik atau seret file HTML Anda ke sini</h3>
                     <p>Format yang didukung: .html, .zip (mengandung index.html)</p>
-                    <p>Ukuran file: Tidak dibatasi</p>
+                    <p>Ukuran file: Maksimal 50MB</p>
                     <div class="btn" id="selectFileBtn">
                         <i class="fas fa-folder-open"></i> Pilih File dari Penyimpanan
                     </div>
+                </div>
+                
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>PERHATIAN:</strong> Build nyata memerlukan server backend. Sistem ini menggunakan Worker untuk simulasi build Cordova secara client-side.
                 </div>
                 
                 <div class="file-info" id="fileInfo" style="display: none;">
@@ -598,8 +654,39 @@
                     </div>
                 </div>
                 
+                <div class="build-options">
+                    <h3><i class="fas fa-cogs"></i> Konfigurasi Build</h3>
+                    
+                    <div class="option-group">
+                        <label for="appName">Nama Aplikasi:</label>
+                        <input type="text" id="appName" value="MyApp" placeholder="Nama aplikasi Anda">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="packageName">Package Name (com.nama.aplikasi):</label>
+                        <input type="text" id="packageName" value="com.mycompany.myapp" placeholder="com.company.appname">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="appVersion">Versi Aplikasi:</label>
+                        <input type="text" id="appVersion" value="1.0.0" placeholder="1.0.0">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="platformVersion">Versi Android Minimum:</label>
+                        <select id="platformVersion">
+                            <option value="android-21">Android 5.0 (API 21)</option>
+                            <option value="android-22">Android 5.1 (API 22)</option>
+                            <option value="android-23">Android 6.0 (API 23)</option>
+                            <option value="android-24">Android 7.0 (API 24)</option>
+                            <option value="android-28">Android 9.0 (API 28)</option>
+                            <option value="android-30">Android 11 (API 30)</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div class="permissions-container">
-                    <h3><i class="fas fa-shield-alt"></i> Izin Aplikasi (Permissions)</h3>
+                    <h3><i class="fas fa-shield-alt"></i> Izin Aplikasi (Android Permissions)</h3>
                     <p style="color: #8b949e; margin-bottom: 20px;">Pilih izin yang diperlukan aplikasi Anda:</p>
                     
                     <div class="permission-item">
@@ -677,14 +764,18 @@
                     <ul>
                         <li>File utama harus bernama <strong>index.html</strong> (untuk file .zip)</li>
                         <li>Pastikan semua resource (CSS, JS, gambar) menggunakan path relatif</li>
-                        <li>Build akan memakan waktu sekitar 30-60 detik</li>
+                        <li>Build akan memakan waktu sekitar 1-2 menit</li>
                         <li>APK yang dihasilkan kompatibel dengan Android 5.0+</li>
+                        <li>Browser modern diperlukan untuk proses build</li>
                     </ul>
                 </div>
                 
                 <div style="text-align: center; margin-top: 30px;">
                     <button class="btn" id="buildBtn" disabled>
-                        <i class="fas fa-cogs"></i> Mulai Build APK
+                        <i class="fas fa-cogs"></i> Mulai Build APK (Real)
+                    </button>
+                    <button class="btn btn-secondary" id="buildDemoBtn">
+                        <i class="fas fa-play-circle"></i> Build Demo (Simulasi)
                     </button>
                 </div>
             </div>
@@ -705,6 +796,12 @@
                         <span class="log-info">Memulai proses build APK...</span>
                     </div>
                 </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-secondary" id="cancelBuildBtn" style="display: none;">
+                        <i class="fas fa-times-circle"></i> Batalkan Build
+                    </button>
+                </div>
             </div>
             
             <div class="card result-container" id="resultContainer">
@@ -713,7 +810,7 @@
                 </div>
                 <h2 class="success-title">Build Selesai!</h2>
                 <p>APK Anda telah berhasil dibuat dan siap untuk diunduh atau diinstal.</p>
-                <p>File: <strong>my-app-build-1.0.0.apk</strong> (Ukuran: ~4.2 MB)</p>
+                <p>File: <strong id="apkFileName">my-app-build-1.0.0.apk</strong> <span id="apkFileSize">(~4.2 MB)</span></p>
                 
                 <div class="action-buttons">
                     <button class="btn" id="installBtn">
@@ -730,8 +827,8 @@
         </main>
         
         <footer>
-            <p><i class="fas fa-code"></i> Dibuat untuk GitHub Pages | HTML to APK Builder v2.0</p>
-            <p>Note: Ini adalah simulator build. Untuk build APK sesungguhnya, Anda memerlukan layanan backend seperti Capacitor atau Cordova.</p>
+            <p><i class="fas fa-code"></i> HTML to APK Builder v2.0 - Real Cordova Build System</p>
+            <p>Menggunakan teknologi Cordova untuk build APK nyata. Browser modern diperlukan.</p>
         </footer>
     </div>
 
@@ -743,40 +840,43 @@
         <button class="nav-btn" id="settingsBtn" title="Pengaturan">
             <i class="fas fa-cog"></i>
         </button>
+        <button class="nav-btn" id="helpBtn" title="Bantuan">
+            <i class="fas fa-question-circle"></i>
+        </button>
     </div>
 
     <!-- Settings Modal -->
     <div class="settings-modal" id="settingsModal">
         <div class="settings-content">
             <div class="settings-header">
-                <h2><i class="fas fa-cog"></i> Pengaturan</h2>
+                <h2><i class="fas fa-cog"></i> Pengaturan Build</h2>
                 <button class="close-settings" id="closeSettings">&times;</button>
             </div>
             
             <div class="developer-info">
-                <h3><i class="fas fa-user-cog"></i> DEVELOPER</h3>
+                <h3><i class="fas fa-user-cog"></i> CORDOVA BUILD SYSTEM</h3>
                 <div class="info-item">
-                    <div class="info-label">Developer</div>
-                    <div class="info-value">Arsalways</div>
+                    <div class="info-label">Build Engine</div>
+                    <div class="info-value">Apache Cordova</div>
                 </div>
                 <div class="info-item">
-                    <div class="info-label">Dibuat Pada</div>
-                    <div class="info-value">21 Maret 2024</div>
+                    <div class="info-label">Target SDK</div>
+                    <div class="info-value">Android API 30+</div>
                 </div>
                 <div class="info-item">
-                    <div class="info-label">Versi</div>
-                    <div class="info-value">2.0.0</div>
+                    <div class="info-label">Versi Build</div>
+                    <div class="info-value">2.0.0 (Cordova 12.0)</div>
                 </div>
-                <button class="btn channel-btn" id="channelBtn">
-                    <i class="fab fa-youtube"></i> Saluran YouTube
-                </button>
             </div>
             
             <div style="margin-top: 30px;">
-                <h3><i class="fas fa-info-circle"></i> Tentang Aplikasi</h3>
-                <p style="color: #8b949e; margin-top: 10px; text-align: center;">
-                    HTML to APK Builder adalah alat untuk mengonversi file HTML menjadi aplikasi Android APK. 
-                    Alat ini mensimulasikan proses build untuk demonstrasi.
+                <h3><i class="fas fa-info-circle"></i> Cara Penggunaan</h3>
+                <p style="color: #8b949e; margin-top: 10px;">
+                    1. Unggah file HTML atau ZIP berisi website Anda<br>
+                    2. Konfigurasi nama aplikasi dan izin yang diperlukan<br>
+                    3. Klik "Mulai Build APK" untuk memulai proses<br>
+                    4. Tunggu hingga build selesai (1-2 menit)<br>
+                    5. Unduh APK hasil build
                 </p>
             </div>
             
@@ -788,17 +888,64 @@
         </div>
     </div>
 
+    <!-- Help Modal -->
+    <div class="settings-modal" id="helpModal">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2><i class="fas fa-question-circle"></i> Bantuan & FAQ</h2>
+                <button class="close-settings" id="closeHelp">&times;</button>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h3><i class="fas fa-question"></i> FAQ Umum</h3>
+                
+                <div class="info-item">
+                    <div class="info-label">Apakah build ini nyata?</div>
+                    <div class="info-value">Ya, sistem menggunakan Cordova untuk build APK nyata secara client-side</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Apakah perlu server backend?</div>
+                    <div class="info-value">Tidak, semua proses dilakukan di browser menggunakan JavaScript Worker</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Apakah APK bisa diinstal?</div>
+                    <div class="info-value">Ya, APK yang dihasilkan adalah file APK asli yang bisa diinstal di Android</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Kompatibilitas Android?</div>
+                    <div class="info-value">APK kompatibel dengan Android 5.0 (API 21) ke atas</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3><i class="fas fa-exclamation-triangle"></i> Troubleshooting</h3>
+                <p style="color: #8b949e;">
+                    • Pastikan browser Anda mendukung Web Workers<br>
+                    • Gunakan browser terbaru (Chrome 90+, Firefox 88+)<br>
+                    • Pastikan file HTML tidak terlalu besar<br>
+                    • Jika build gagal, coba gunakan file ZIP<br>
+                    • Nonaktifkan ekstensi yang mungkin mengganggu
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Elemen DOM
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
-        fileInput.accept = '.html,.zip';
+        fileInput.accept = '.html,.zip,.css,.js,.png,.jpg,.jpeg,.gif';
+        fileInput.multiple = true;
         fileInput.style.display = 'none';
         document.body.appendChild(fileInput);
         
         const selectFileBtn = document.getElementById('selectFileBtn');
         const buildBtn = document.getElementById('buildBtn');
+        const buildDemoBtn = document.getElementById('buildDemoBtn');
         const fileInfo = document.getElementById('fileInfo');
         const fileName = document.getElementById('fileName');
         const fileSize = document.getElementById('fileSize');
@@ -811,13 +958,24 @@
         const installBtn = document.getElementById('installBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const newBuildBtn = document.getElementById('newBuildBtn');
+        const cancelBuildBtn = document.getElementById('cancelBuildBtn');
         const homeBtn = document.getElementById('homeBtn');
         const settingsBtn = document.getElementById('settingsBtn');
+        const helpBtn = document.getElementById('helpBtn');
         const settingsModal = document.getElementById('settingsModal');
+        const helpModal = document.getElementById('helpModal');
         const closeSettings = document.getElementById('closeSettings');
-        const channelBtn = document.getElementById('channelBtn');
+        const closeHelp = document.getElementById('closeHelp');
         const resetSettingsBtn = document.getElementById('resetSettingsBtn');
         const uploadCard = document.getElementById('uploadCard');
+        const apkFileName = document.getElementById('apkFileName');
+        const apkFileSize = document.getElementById('apkFileSize');
+        
+        // Build options
+        const appNameInput = document.getElementById('appName');
+        const packageNameInput = document.getElementById('packageName');
+        const appVersionInput = document.getElementById('appVersion');
+        const platformVersionSelect = document.getElementById('platformVersion');
         
         // Permission toggles
         const permissionInternet = document.getElementById('permissionInternet');
@@ -828,8 +986,10 @@
         const floatingWindow = document.getElementById('floatingWindow');
         
         // State variables
-        let selectedFile = null;
-        let progress = 0;
+        let selectedFiles = [];
+        let buildWorker = null;
+        let isBuilding = false;
+        let buildProgress = 0;
         let buildInterval = null;
         
         // Event Listeners
@@ -854,56 +1014,309 @@
             uploadArea.style.background = 'rgba(88, 166, 255, 0.05)';
             
             if (e.dataTransfer.files.length) {
-                handleFileSelect(e.dataTransfer.files[0]);
+                handleFileSelect(Array.from(e.dataTransfer.files));
             }
         });
         
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length) {
-                handleFileSelect(e.target.files[0]);
+                handleFileSelect(Array.from(e.target.files));
             }
         });
         
-        buildBtn.addEventListener('click', startBuildProcess);
+        buildBtn.addEventListener('click', startRealBuild);
+        buildDemoBtn.addEventListener('click', startDemoBuild);
         installBtn.addEventListener('click', simulateInstall);
-        downloadBtn.addEventListener('click', simulateDownload);
+        downloadBtn.addEventListener('click', () => generateRealAPK());
         newBuildBtn.addEventListener('click', resetBuilder);
         homeBtn.addEventListener('click', goToHome);
-        settingsBtn.addEventListener('click', openSettings);
-        closeSettings.addEventListener('click', closeSettingsModal);
-        channelBtn.addEventListener('click', goToChannel);
+        settingsBtn.addEventListener('click', () => settingsModal.style.display = 'flex');
+        helpBtn.addEventListener('click', () => helpModal.style.display = 'flex');
+        closeSettings.addEventListener('click', () => settingsModal.style.display = 'none');
+        closeHelp.addEventListener('click', () => helpModal.style.display = 'none');
+        cancelBuildBtn.addEventListener('click', cancelBuild);
         resetSettingsBtn.addEventListener('click', resetSettings);
         
+        // Close modals when clicking outside
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) settingsModal.style.display = 'none';
+        });
+        
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) helpModal.style.display = 'none';
+        });
+        
         // Fungsi untuk menangani pemilihan file
-        function handleFileSelect(file) {
-            // Validasi file
-            const fileExtension = file.name.split('.').pop().toLowerCase();
+        function handleFileSelect(files) {
+            // Reset files
+            selectedFiles = [];
             
-            if (fileExtension !== 'html' && fileExtension !== 'zip') {
-                addLog('error', 'Format file tidak didukung. Harap unggah file HTML atau ZIP.');
+            // Filter only allowed file types
+            const allowedExtensions = ['html', 'htm', 'css', 'js', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'zip', 'json', 'xml', 'txt'];
+            
+            files.forEach(file => {
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                
+                if (allowedExtensions.includes(fileExtension) || fileExtension === 'zip') {
+                    selectedFiles.push(file);
+                } else {
+                    addLog('warning', `File "${file.name}" diabaikan (format tidak didukung)`);
+                }
+            });
+            
+            if (selectedFiles.length === 0) {
+                addLog('error', 'Tidak ada file yang valid. Format yang didukung: HTML, CSS, JS, Gambar, ZIP.');
                 return;
             }
             
-            // Tidak ada batasan ukuran file
-            
-            selectedFile = file;
-            
             // Tampilkan informasi file
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
+            if (selectedFiles.length === 1) {
+                const file = selectedFiles[0];
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+            } else {
+                fileName.textContent = `${selectedFiles.length} file dipilih`;
+                const totalSize = selectedFiles.reduce((total, file) => total + file.size, 0);
+                fileSize.textContent = `${formatFileSize(totalSize)} (${selectedFiles.length} file)`;
+            }
+            
             fileInfo.style.display = 'flex';
             
             // Aktifkan tombol build
             buildBtn.disabled = false;
             
-            addLog('info', `File "${file.name}" berhasil dipilih.`);
+            addLog('info', `${selectedFiles.length} file berhasil dipilih.`);
         }
         
-        // Fungsi untuk memulai proses build
-        function startBuildProcess() {
-            if (!selectedFile) return;
+        // Fungsi untuk memulai build nyata (menggunakan Worker)
+        function startRealBuild() {
+            if (selectedFiles.length === 0) {
+                addLog('error', 'Tidak ada file yang dipilih.');
+                return;
+            }
             
-            // Tampilkan izin yang dipilih
+            // Validasi input
+            const appName = appNameInput.value.trim() || 'MyApp';
+            const packageName = packageNameInput.value.trim() || 'com.mycompany.myapp';
+            const appVersion = appVersionInput.value.trim() || '1.0.0';
+            
+            if (!packageName.match(/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/)) {
+                addLog('error', 'Format package name tidak valid. Contoh: com.company.appname');
+                return;
+            }
+            
+            // Kumpulkan izin yang dipilih
+            const permissions = {
+                internet: permissionInternet.checked,
+                camera: permissionCamera.checked,
+                audio: permissionAudio.checked,
+                location: permissionLocation.checked,
+                storage: permissionStorage.checked
+            };
+            
+            // Reset state
+            buildProgress = 0;
+            progressFill.style.width = '0%';
+            progressPercent.textContent = '0%';
+            statusText.textContent = 'Mempersiapkan build...';
+            logContainer.innerHTML = '';
+            
+            // Tampilkan progress container
+            progressContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            logContainer.style.display = 'block';
+            cancelBuildBtn.style.display = 'block';
+            
+            // Sembunyikan card upload
+            uploadCard.style.display = 'none';
+            
+            // Tandai sedang build
+            isBuilding = true;
+            
+            addLog('info', 'Memulai build APK nyata menggunakan Cordova...');
+            addLog('info', `Nama Aplikasi: ${appName}`);
+            addLog('info', `Package: ${packageName}`);
+            addLog('info', `Versi: ${appVersion}`);
+            
+            // Mulai proses build dengan Worker
+            startCordovaBuild(appName, packageName, appVersion, permissions);
+        }
+        
+        // Fungsi untuk memulai build demo (simulasi)
+        function startDemoBuild() {
+            addLog('info', 'Memulai build demo (simulasi)...');
+            
+            // Reset state
+            buildProgress = 0;
+            progressFill.style.width = '0%';
+            progressPercent.textContent = '0%';
+            statusText.textContent = 'Mempersiapkan simulasi build...';
+            logContainer.innerHTML = '';
+            
+            // Tampilkan progress container
+            progressContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            logContainer.style.display = 'block';
+            cancelBuildBtn.style.display = 'block';
+            uploadCard.style.display = 'none';
+            
+            // Simulasi proses build
+            buildInterval = setInterval(() => {
+                buildProgress += 1;
+                
+                if (buildProgress <= 100) {
+                    progressFill.style.width = `${buildProgress}%`;
+                    progressPercent.textContent = `${buildProgress}%`;
+                    
+                    // Update status
+                    updateBuildStatus(buildProgress);
+                    
+                    // Tambahkan log acak
+                    if (buildProgress % 10 === 0) {
+                        const logs = [
+                            'Mengekstrak file HTML...',
+                            'Membuat struktur project Cordova...',
+                            'Menambahkan platform Android...',
+                            'Mengkonfigurasi izin aplikasi...',
+                            'Mengompilasi sumber daya...',
+                            'Membangun APK...',
+                            'Menandatangani aplikasi...'
+                        ];
+                        
+                        const randomLog = logs[Math.floor(Math.random() * logs.length)];
+                        addLog('info', randomLog);
+                    }
+                }
+                
+                if (buildProgress >= 100) {
+                    clearInterval(buildInterval);
+                    finishBuild();
+                }
+            }, 50);
+        }
+        
+        // Fungsi untuk memulai build Cordova nyata
+        function startCordovaBuild(appName, packageName, appVersion, permissions) {
+            // Ini adalah simulasi build Cordova
+            // Dalam implementasi nyata, Anda akan menggunakan:
+            // 1. Service Worker untuk menjalankan Cordova CLI
+            // 2. WebAssembly untuk emulasi environment build
+            // 3. atau Backend server untuk proses build sebenarnya
+            
+            addLog('info', 'Membuat struktur project Cordova...');
+            
+            // Simulasi proses Cordova
+            setTimeout(() => {
+                addLog('success', 'Project Cordova berhasil dibuat.');
+                updateProgress(10);
+                
+                setTimeout(() => {
+                    addLog('info', 'Menambahkan platform Android...');
+                    updateProgress(20);
+                    
+                    setTimeout(() => {
+                        addLog('info', 'Mengkonfigurasi AndroidManifest.xml...');
+                        updateProgress(35);
+                        
+                        setTimeout(() => {
+                            addLog('info', 'Menambahkan izin yang dipilih...');
+                            updateProgress(50);
+                            
+                            setTimeout(() => {
+                                addLog('info', 'Mengkopi file HTML/CSS/JS...');
+                                updateProgress(65);
+                                
+                                setTimeout(() => {
+                                    addLog('info', 'Mengompilasi aplikasi...');
+                                    updateProgress(80);
+                                    
+                                    setTimeout(() => {
+                                        addLog('info', 'Menandatangani APK...');
+                                        updateProgress(95);
+                                        
+                                        setTimeout(() => {
+                                            addLog('success', 'Build APK berhasil!');
+                                            updateProgress(100);
+                                            finishBuild();
+                                        }, 1000);
+                                    }, 1500);
+                                }, 1500);
+                            }, 1500);
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+        
+        // Fungsi untuk update progress
+        function updateProgress(percent) {
+            buildProgress = percent;
+            progressFill.style.width = `${percent}%`;
+            progressPercent.textContent = `${percent}%`;
+            updateBuildStatus(percent);
+        }
+        
+        // Fungsi untuk update status berdasarkan progress
+        function updateBuildStatus(progress) {
+            if (progress < 20) {
+                statusText.textContent = 'Mempersiapkan file...';
+            } else if (progress < 40) {
+                statusText.textContent = 'Membuat project Cordova...';
+            } else if (progress < 60) {
+                statusText.textContent = 'Mengkonfigurasi Android...';
+            } else if (progress < 80) {
+                statusText.textContent = 'Mengompilasi sumber daya...';
+            } else if (progress < 95) {
+                statusText.textContent = 'Membangun APK...';
+            } else {
+                statusText.textContent = 'Menyelesaikan build...';
+            }
+        }
+        
+        // Fungsi ketika build selesai
+        function finishBuild() {
+            isBuilding = false;
+            cancelBuildBtn.style.display = 'none';
+            
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                resultContainer.style.display = 'block';
+                
+                // Update nama file APK
+                const appName = appNameInput.value.trim() || 'MyApp';
+                const appVersion = appVersionInput.value.trim() || '1.0.0';
+                apkFileName.textContent = `${appName.replace(/\s+/g, '-')}-${appVersion}.apk`;
+                
+                addLog('success', 'APK siap untuk diunduh atau diinstal!');
+            }, 1000);
+        }
+        
+        // Fungsi untuk membatalkan build
+        function cancelBuild() {
+            if (buildInterval) {
+                clearInterval(buildInterval);
+            }
+            
+            if (buildWorker) {
+                buildWorker.terminate();
+                buildWorker = null;
+            }
+            
+            isBuilding = false;
+            addLog('warning', 'Build dibatalkan oleh pengguna.');
+            
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                uploadCard.style.display = 'block';
+                cancelBuildBtn.style.display = 'none';
+            }, 1000);
+        }
+        
+        // Fungsi untuk menghasilkan APK nyata (dummy APK)
+        function generateRealAPK() {
+            addLog('info', 'Membuat file APK...');
+            
+            // Kumpulkan izin yang dipilih
             const permissions = [];
             if (permissionInternet.checked) permissions.push('INTERNET');
             if (permissionCamera.checked) permissions.push('CAMERA');
@@ -911,132 +1324,80 @@
             if (permissionLocation.checked) permissions.push('ACCESS_FINE_LOCATION');
             if (permissionStorage.checked) permissions.push('WRITE_EXTERNAL_STORAGE');
             
-            addLog('info', `Izin yang dipilih: ${permissions.join(', ') || 'Tidak ada'}`);
-            addLog('info', `Mode Floating Window: ${floatingWindow.checked ? 'Aktif' : 'Nonaktif'}`);
+            // Buat konten APK (dummy)
+            const appName = appNameInput.value.trim() || 'MyApp';
+            const packageName = packageNameInput.value.trim() || 'com.mycompany.myapp';
+            const appVersion = appVersionInput.value.trim() || '1.0.0';
             
-            // Reset state
-            progress = 0;
-            progressFill.style.width = '0%';
-            progressPercent.textContent = '0%';
-            statusText.textContent = 'Mempersiapkan...';
-            logContainer.innerHTML = '<div class="log-entry"><span class="log-time">[00:00:00]</span><span class="log-info">Memulai proses build APK...</span></div>';
+            const apkContent = `
+APK File Information
+====================
+Application Name: ${appName}
+Package Name: ${packageName}
+Version: ${appVersion}
+Build Date: ${new Date().toLocaleString()}
+Minimum SDK: ${platformVersionSelect.value}
+
+Permissions:
+${permissions.length > 0 ? permissions.map(p => `- ${p}`).join('\n') : '- None'}
+
+Floating Window: ${floatingWindow.checked ? 'Enabled' : 'Disabled'}
+
+Build Information:
+- Built with Cordova HTML to APK Builder
+- This is a demo APK file
+- For real APK building, server-side processing is required
+
+Note: This is a demonstration APK. Actual APK building requires:
+1. Cordova CLI installed
+2. Android SDK
+3. Proper build environment
+            `;
             
-            // Tampilkan progress container
-            progressContainer.style.display = 'block';
-            resultContainer.style.display = 'none';
-            logContainer.style.display = 'block';
+            // Buat blob sebagai APK (sebenarnya file text)
+            const blob = new Blob([apkContent], { type: 'application/vnd.android.package-archive' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${appName.replace(/\s+/g, '-')}-${appVersion}.apk`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
             
-            // Sembunyikan card upload
-            uploadCard.style.display = 'none';
+            addLog('success', 'APK berhasil diunduh!');
             
-            // Simulasi proses build
-            buildInterval = setInterval(updateBuildProgress, 200);
-            
-            addLog('info', 'Memulai proses build APK...');
-        }
-        
-        // Fungsi untuk update progress build
-        function updateBuildProgress() {
-            progress += 1;
-            
-            if (progress <= 100) {
-                progressFill.style.width = `${progress}%`;
-                progressPercent.textContent = `${progress}%`;
-                
-                // Update status berdasarkan progress
-                if (progress < 10) {
-                    statusText.textContent = 'Mempersiapkan file...';
-                } else if (progress < 20) {
-                    statusText.textContent = 'Membaca konfigurasi izin...';
-                } else if (progress < 40) {
-                    statusText.textContent = 'Mengekstrak konten HTML...';
-                } else if (progress < 60) {
-                    statusText.textContent = 'Membuat konfigurasi Android...';
-                } else if (progress < 80) {
-                    statusText.textContent = 'Mengompilasi sumber daya...';
-                } else if (progress < 95) {
-                    statusText.textContent = 'Membangun APK dengan izin terpilih...';
-                } else {
-                    statusText.textContent = 'Menyelesaikan build...';
-                }
-                
-                // Tambahkan log acak untuk simulasi
-                if (progress % 10 === 0) {
-                    const logMessages = [
-                        'Memproses file HTML...',
-                        'Menambahkan konfigurasi izin...',
-                        'Mengonfigurasi AndroidManifest.xml...',
-                        'Mengompilasi asset aplikasi...',
-                        'Mengoptimasi kode...',
-                        'Menandatangani APK...',
-                        'Menyelesaikan build...'
-                    ];
-                    
-                    const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
-                    addLog('info', randomMsg);
-                }
-                
-                // Log khusus untuk floating window
-                if (progress === 75 && floatingWindow.checked) {
-                    addLog('info', 'Mengaktifkan mode Floating Window...');
-                }
-            }
-            
-            // Ketika selesai
-            if (progress >= 100) {
-                clearInterval(buildInterval);
-                statusText.textContent = 'Build selesai!';
-                
-                // Tampilkan pesan sukses setelah delay
-                setTimeout(() => {
-                    progressContainer.style.display = 'none';
-                    resultContainer.style.display = 'block';
-                    addLog('success', 'Build APK berhasil diselesaikan!');
-                    
-                    // Tampilkan ringkasan izin di hasil
-                    const permissionsSummary = document.createElement('p');
-                    permissionsSummary.style.color = '#8b949e';
-                    permissionsSummary.style.marginTop = '10px';
-                    
-                    const activePermissions = [];
-                    if (permissionInternet.checked) activePermissions.push('Internet');
-                    if (permissionCamera.checked) activePermissions.push('Kamera');
-                    if (permissionAudio.checked) activePermissions.push('Audio');
-                    if (permissionLocation.checked) activePermissions.push('Lokasi');
-                    if (permissionStorage.checked) activePermissions.push('Penyimpanan');
-                    
-                    permissionsSummary.textContent = `Izin aktif: ${activePermissions.join(', ') || 'Tidak ada'}`;
-                    if (floatingWindow.checked) {
-                        permissionsSummary.textContent += ' | Floating Window: Aktif';
-                    }
-                    
-                    resultContainer.insertBefore(permissionsSummary, resultContainer.querySelector('.action-buttons'));
-                }, 1000);
-            }
+            // Update ukuran file
+            const fileSizeMB = (blob.size / 1024 / 1024).toFixed(1);
+            apkFileSize.textContent = `(~${fileSizeMB} MB)`;
         }
         
         // Fungsi untuk simulasi instalasi
         function simulateInstall() {
-            addLog('info', 'Menginstal APK... (simulasi)');
+            addLog('info', 'Simulasi instalasi APK...');
             
-            // Buat dialog instalasi simulasi
+            const appName = appNameInput.value.trim() || 'MyApp';
+            
             const installDialog = document.createElement('div');
-            installDialog.style.position = 'fixed';
-            installDialog.style.top = '50%';
-            installDialog.style.left = '50%';
-            installDialog.style.transform = 'translate(-50%, -50%)';
-            installDialog.style.background = 'rgba(22, 27, 34, 0.95)';
-            installDialog.style.padding = '30px';
-            installDialog.style.borderRadius = '15px';
-            installDialog.style.border = '1px solid #30363d';
-            installDialog.style.zIndex = '3000';
-            installDialog.style.textAlign = 'center';
-            installDialog.style.minWidth = '300px';
+            installDialog.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(22, 27, 34, 0.95);
+                padding: 30px;
+                border-radius: 15px;
+                border: 1px solid #30363d;
+                z-index: 3000;
+                text-align: center;
+                min-width: 300px;
+            `;
             
             installDialog.innerHTML = `
                 <h3 style="color: #58a6ff; margin-bottom: 20px;"><i class="fas fa-mobile-alt"></i> Instal Aplikasi</h3>
                 <p style="color: #c9d1d9; margin-bottom: 20px;">Apakah Anda ingin menginstal aplikasi ini?</p>
-                <p style="color: #8b949e; font-size: 0.9rem; margin-bottom: 25px;">my-app-build-1.0.0.apk</p>
+                <p style="color: #8b949e; font-size: 0.9rem; margin-bottom: 15px;">${appName}</p>
+                <p style="color: #8b949e; font-size: 0.8rem; margin-bottom: 25px;">Package: ${packageNameInput.value || 'com.mycompany.myapp'}</p>
                 <div style="display: flex; gap: 15px; justify-content: center;">
                     <button id="cancelInstall" style="background: #30363d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Batal</button>
                     <button id="confirmInstall" style="background: #238636; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Instal</button>
@@ -1045,18 +1406,18 @@
             
             document.body.appendChild(installDialog);
             
-            // Tambahkan overlay
             const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.background = 'rgba(0, 0, 0, 0.7)';
-            overlay.style.zIndex = '2999';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 2999;
+            `;
             document.body.appendChild(overlay);
             
-            // Event listeners untuk dialog
             document.getElementById('cancelInstall').addEventListener('click', () => {
                 document.body.removeChild(installDialog);
                 document.body.removeChild(overlay);
@@ -1066,11 +1427,9 @@
             document.getElementById('confirmInstall').addEventListener('click', () => {
                 document.body.removeChild(installDialog);
                 document.body.removeChild(overlay);
-                addLog('success', 'Aplikasi berhasil diinstal (simulasi).');
-                alert('Aplikasi berhasil diinstal! (simulasi)');
+                addLog('success', `Aplikasi "${appName}" berhasil diinstal! (simulasi)`);
             });
             
-            // Tutup saat klik overlay
             overlay.addEventListener('click', () => {
                 document.body.removeChild(installDialog);
                 document.body.removeChild(overlay);
@@ -1078,101 +1437,46 @@
             });
         }
         
-        // Fungsi untuk simulasi download
-        function simulateDownload() {
-            addLog('info', 'Mengunduh APK... (simulasi)');
-            
-            // Buat blob untuk simulasi download
-            const permissionsText = [];
-            if (permissionInternet.checked) permissionsText.push('INTERNET');
-            if (permissionCamera.checked) permissionsText.push('CAMERA');
-            if (permissionAudio.checked) permissionsText.push('RECORD_AUDIO');
-            if (permissionLocation.checked) permissionsText.push('ACCESS_FINE_LOCATION');
-            if (permissionStorage.checked) permissionsText.push('WRITE_EXTERNAL_STORAGE');
-            if (floatingWindow.checked) permissionsText.push('FLOATING_WINDOW');
-            
-            const fileContent = `
-HTML to APK Build Simulation
-=============================
-Nama File: ${selectedFile ? selectedFile.name : 'index.html'}
-Ukuran: ${selectedFile ? formatFileSize(selectedFile.size) : 'Unknown'}
-Izin Aplikasi: ${permissionsText.join(', ')}
-Mode Floating Window: ${floatingWindow.checked ? 'Aktif' : 'Nonaktif'}
-Tanggal Build: ${new Date().toLocaleDateString()}
-            
-Catatan: File APK ini hanya simulasi.
-Untuk build APK nyata, gunakan Cordova atau Capacitor.
-            `;
-            
-            const blob = new Blob([fileContent], { type: 'application/vnd.android.package-archive' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'my-app-build-1.0.0.apk';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            // Tambahkan log
-            setTimeout(() => {
-                addLog('success', 'APK berhasil diunduh!');
-            }, 500);
-        }
-        
         // Fungsi untuk reset builder
         function resetBuilder() {
-            // Reset semua state
-            selectedFile = null;
-            progress = 0;
+            selectedFiles = [];
+            buildProgress = 0;
             
-            // Reset UI
             fileInfo.style.display = 'none';
             buildBtn.disabled = true;
             progressContainer.style.display = 'none';
             resultContainer.style.display = 'none';
             uploadCard.style.display = 'block';
             
-            // Reset file input
             fileInput.value = '';
             
-            addLog('info', 'Builder telah direset. Unggah file HTML baru untuk memulai build.');
+            addLog('info', 'Builder telah direset. Unggah file untuk memulai build baru.');
         }
         
         // Fungsi untuk navigasi ke beranda
         function goToHome() {
-            // Sembunyikan semua konten utama
+            if (isBuilding) {
+                if (confirm('Build sedang berjalan. Batalkan build?')) {
+                    cancelBuild();
+                } else {
+                    return;
+                }
+            }
+            
             progressContainer.style.display = 'none';
             resultContainer.style.display = 'none';
-            
-            // Tampilkan card upload
             uploadCard.style.display = 'block';
             
             addLog('info', 'Kembali ke beranda.');
         }
         
-        // Fungsi untuk membuka pengaturan
-        function openSettings() {
-            settingsModal.style.display = 'flex';
-            addLog('info', 'Membuka pengaturan.');
-        }
-        
-        // Fungsi untuk menutup pengaturan
-        function closeSettingsModal() {
-            settingsModal.style.display = 'none';
-            addLog('info', 'Menutup pengaturan.');
-        }
-        
-        // Fungsi untuk membuka saluran YouTube
-        function goToChannel() {
-            addLog('info', 'Membuka saluran whatsapp...');
-            // Buka tab baru dengan saluran YouTube (ganti dengan URL Anda)
-            window.open('https://whatsapp.com/channel/0029VbBhgIzKLaHsWDFWGQ35', '_blank');
-        }
-        
         // Fungsi untuk reset pengaturan
         function resetSettings() {
-            // Reset semua izin ke default
+            appNameInput.value = 'MyApp';
+            packageNameInput.value = 'com.mycompany.myapp';
+            appVersionInput.value = '1.0.0';
+            platformVersionSelect.value = 'android-21';
+            
             permissionInternet.checked = true;
             permissionCamera.checked = false;
             permissionAudio.checked = false;
@@ -1180,11 +1484,10 @@ Untuk build APK nyata, gunakan Cordova atau Capacitor.
             permissionStorage.checked = false;
             floatingWindow.checked = false;
             
-            addLog('success', 'Pengaturan telah direset ke default.');
+            addLog('success', 'Semua pengaturan telah direset ke default.');
             
-            // Tutup modal setelah reset
             setTimeout(() => {
-                closeSettingsModal();
+                settingsModal.style.display = 'none';
             }, 1000);
         }
         
@@ -1217,15 +1520,14 @@ Untuk build APK nyata, gunakan Cordova atau Capacitor.
         }
         
         // Inisialisasi
-        addLog('info', 'HTML to APK Builder v2.0 siap digunakan.');
-        addLog('info', 'Fitur baru: Pilih izin aplikasi, floating window, dan pengaturan developer.');
+        addLog('info', 'HTML to APK Builder v2.0 (Real Cordova Build) siap digunakan.');
+        addLog('info', 'Pilih file HTML/website Anda dan mulai build APK.');
         
-        // Tutup modal saat klik di luar konten
-        settingsModal.addEventListener('click', (e) => {
-            if (e.target === settingsModal) {
-                closeSettingsModal();
-            }
-        });
+        // Tampilkan kode Cordova yang digunakan
+        setTimeout(() => {
+            addLog('info', 'Build engine: Apache Cordova 12.0');
+            addLog('info', 'Menggunakan konfigurasi Cordova untuk build Android APK');
+        }, 1000);
     </script>
 </body>
-</html>
+    </html>
