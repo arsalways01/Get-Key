@@ -1,403 +1,370 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arsalways Key Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>RIZKY STORE REAL - List Diskon</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
 
-        body {
-            background-color: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
+body {
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    position: relative;
+    overflow-x: hidden;
+}
 
-        /* Background efek neon */
-        .bg-neon {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
+/* Video Background - full screen tanpa batasan */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
 
-        .container {
-            max-width: 800px;
-            width: 90%;
-            text-align: center;
-            padding: 20px;
-            z-index: 1;
-        }
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    filter: brightness(0.65) saturate(1.3);
+}
 
-        /* Logo bulat */
-        .logo-circle {
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 
-                0 0 20px #00ffff,
-                0 0 40px #ff00ff,
-                inset 0 0 20px rgba(255, 255, 255, 0.2);
-            animation: pulse 4s infinite alternate;
-            position: relative;
-            overflow: hidden;
-        }
+/* Overlay lebih tipis */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    z-index: 1;
+}
 
-        .logo-circle::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
+/* Konten utama - full width dengan padding lega */
+.container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 100%; /* hilangkan batasan lebar */
+    padding: 20px 16px; /* padding tetap proporsional */
+    margin: 0 auto;
+}
 
-        .logo-inner {
-            width: 120px;
-            height: 120px;
-            background-color: rgba(10, 10, 10, 0.9);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 50px;
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff;
-        }
+/* Header lebih lebar dan proporsional */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.4);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 16px 24px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: fit-content;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        /* Nama Arsalways */
-        .brand-name {
-            font-size: 42px;
-            font-weight: bold;
-            margin-bottom: 40px;
-            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            letter-spacing: 2px;
-        }
+.section {
+    margin-bottom: 35px;
+    width: 100%;
+}
 
-        /* Kotak kunci */
-        .key-box {
-            background-color: rgba(20, 20, 30, 0.8);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 2px solid #00ffff;
-            box-shadow: 
-                0 0 15px rgba(0, 255, 255, 0.5),
-                inset 0 0 10px rgba(0, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
+.section h2 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.95);
+    padding-left: 8px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+    display: inline-block;
+    padding-right: 20px;
+}
 
-        .key-box::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ff00, #ffff00);
-            z-index: -1;
-            border-radius: 20px;
-            filter: blur(20px);
-            opacity: 0.3;
-        }
+/* Card dengan ukuran penuh dan proporsional */
+.card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border-radius: 28px;
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.1) inset;
+    color: #fff;
+    width: 100%;
+    transition: all 0.2s ease;
+}
 
-        .key-label {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #ffff00;
-            text-shadow: 0 0 5px #ffff00;
-        }
+.card:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
+}
 
-        .key-value {
-            font-family: 'Courier New', monospace;
-            font-size: 28px;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            word-break: break-all;
-            border: 1px solid #ff00ff;
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
-            letter-spacing: 1px;
-        }
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    margin-bottom: 14px;
+    padding: 6px 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+}
 
-        /* Tombol */
-        .copy-btn {
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
+.item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
 
-        .copy-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
-        }
+.item span:first-child {
+    font-weight: 500;
+    opacity: 0.95;
+    flex: 1;
+    padding-right: 10px;
+}
 
-        .copy-btn i {
-            margin-right: 10px;
-            font-size: 20px;
-        }
+.old {
+    text-decoration: line-through;
+    opacity: 0.6;
+    margin-right: 8px;
+    font-size: 14px;
+}
 
-        /* Status */
-        .status {
-            margin-top: 20px;
-            font-size: 16px;
-            min-height: 25px;
-            color: #00ffff;
-        }
+.new {
+    color: #30ffb0;
+    font-weight: 700;
+    font-size: 16px;
+    background: rgba(0, 255, 200, 0.15);
+    padding: 6px 12px;
+    border-radius: 30px;
+    border: 0.5px solid rgba(48, 255, 176, 0.3);
+    display: inline-block;
+    min-width: 65px;
+    text-align: center;
+}
 
-        /* Animasi */
-        @keyframes pulse {
-            0% {
-                box-shadow: 
-                    0 0 20px #00ffff,
-                    0 0 40px #ff00ff,
-                    inset 0 0 20px rgba(255, 255, 255, 0.2);
-            }
-            100% {
-                box-shadow: 
-                    0 0 25px #ff00ff,
-                    0 0 50px #00ffff,
-                    inset 0 0 25px rgba(255, 255, 255, 0.3);
-            }
-        }
+/* Badge lebih besar dan lega */
+.badge {
+    display: inline-block;
+    background: rgba(48, 255, 176, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 14px;
+    margin: 6px 8px 6px 0;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.3px;
+}
 
-        /* Loading */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #00ffff;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-        }
+/* Note card lebih lega */
+.note {
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 1;
+    font-weight: 500;
+    background: rgba(255, 59, 48, 0.15);
+    border-left: 5px solid #ff3b30;
+    border-radius: 24px;
+    padding: 20px;
+}
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+/* Button besar dan nyaman */
+button {
+    width: 100%;
+    padding: 18px 16px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(0, 122, 255, 0.5);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.2) inset;
+    transition: all 0.2s;
+}
 
-        /* Responsif */
-        @media (max-width: 768px) {
-            .logo-circle {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .logo-inner {
-                width: 90px;
-                height: 90px;
-                font-size: 40px;
-            }
-            
-            .brand-name {
-                font-size: 32px;
-            }
-            
-            .key-value {
-                font-size: 20px;
-                padding: 15px;
-            }
-        }
-    </style>
+button:hover {
+    background: rgba(0, 122, 255, 0.7);
+    backdrop-filter: blur(35px);
+    transform: scale(1.02);
+}
+
+footer {
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.7;
+    margin-top: 40px;
+    padding: 16px 20px;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+}
+
+/* Payment card spesial */
+.card:has(> :only-child:contains("QRIS")) {
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    padding: 28px 20px;
+    letter-spacing: 2px;
+}
+
+/* Hilangkan batasan lebar pada container di layar besar */
+@media screen and (min-width: 768px) {
+    .container {
+        padding: 20px 32px;
+    }
+    
+    h1 {
+        font-size: 26px;
+        padding: 18px 32px;
+    }
+    
+    .section h2 {
+        font-size: 20px;
+        margin-left: 8px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+        padding: 20px 48px;
+    }
+}
+
+/* Fallback */
+@supports not (backdrop-filter: blur(10px)) {
+    .card, h1, .badge, button, footer {
+        background: rgba(25, 25, 35, 0.9);
+    }
+}
+
+/* Perbaikan untuk tampilan QRIS */
+</style>
 </head>
 <body>
-    <div class="bg-neon"></div>
-    <div class="container">
-        <div class="logo-circle">
-            <div class="logo-inner">A</div>
+
+<!-- Video Background -->
+<div class="video-background">
+    <video autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-particles-and-lines-flowing-on-a-blue-background-32694-large.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="overlay"></div>
+
+<div class="container">
+    <h1>🗂 LIST DISKON FILE ALL DEVICE BY RIZKY STORE REAL</h1>
+
+    <div class="section">
+        <h2>📱 ANDROID</h2>
+
+        <div class="card">
+            <div class="item">HOLOGRAM BLUE INVIS GLOWAL FF ORI <span><span class="old">25K</span><span class="new">5K</span></span></div>
+            <div class="item">HOLOGRAM SENJATA FF ORI <span><span class="old">27K</span><span class="new">5K</span></span></div>
         </div>
-        
-        <h1 class="brand-name">Arsalways</h1>
-        
-        <div class="key-box">
-            <div class="key-label">KEY ANDA</div>
-            <div id="keyDisplay" class="key-value">Memuat kunci...</div>
-            <button id="copyBtn" class="copy-btn">
-                <i class="fas fa-copy"></i> Salin Key
-            </button>
-            <div id="status" class="status"></div>
+
+        <div class="card">
+            <div class="item">AIMHEAD OB52 VVIP root <span><span class="old">25K</span><span class="new">10K</span></span></div>
+            <div class="item">AIMLOCK PLUS root <span><span class="old">25K</span><span class="new">10K</span></span></div>
+            <div class="item">EASY DRAG 50% VIP <span><span class="old">25K</span><span class="new">10K</span></span></div>
+            <div class="item">EASY DRAG 60% VIP <span><span class="old">25K</span><span class="new">10K</span></span></div>
+            <div class="item">EASY DRAG 70% VIP <span><span class="old">25K</span><span class="new">10K</span></span></div>
+            <div class="item">EASY DRAG 80% VIP <span><span class="old">25K</span><span class="new">10K</span></span></div>
+            <div class="item">EASY DRAG 90% VIP <span><span class="old">25K</span><span class="new">10K</span></span></div>
+        </div>
+
+        <div class="card">
+            <div class="item">Set Elite Cs <span><span class="old">10K</span><span class="new">5K</span></span></div>
         </div>
     </div>
 
-    <script>
-        // Konfigurasi Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyAF3B3_Bq-Q9ulQdxfXHkCBqMTIDlx0sqY",
-            authDomain: "panel-user-b78ff.firebaseapp.com",
-            projectId: " panel-user-b78ff",
-            storageBucket: "panel-user-b78ff.firebasestorage.app",
-            messagingSenderId: "86797928744",
-            appId: "1:86797928744:web:cb85dd498c6cf3b659281d"
-        };
+    <div class="section">
+        <h2>🍎 IOS / IPHONE</h2>
+        <div class="card">
+            <div class="item">Hologram Blanco Pack <span><span class="old">27K</span><span class="new">5K</span></span></div>
+            <div class="item">Hologram Blue Pack <span><span class="old">27K</span><span class="new">5K</span></span></div>
+        </div>
+    </div>
 
-        // Inisialisasi Firebase
-        let db;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-            console.log("Firebase berhasil diinisialisasi");
-        } catch (error) {
-            console.error("Error inisialisasi Firebase:", error);
-            document.getElementById('status').innerHTML = "⚠️ Firebase tidak terhubung. Kunci hanya lokal.";
-        }
+    <div class="section">
+        <h2>💳 PAYMENT</h2>
+        <div class="card" style="text-align: center; font-weight: 700; font-size: 24px; letter-spacing: 2px; padding: 30px 20px;">
+            QRIS
+        </div>
+    </div>
 
-        // Generate kunci acak
-        function generateRandomKey() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let key = '';
-            const segments = [8, 4, 4, 4, 12]; // Format: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-            
-            for (let i = 0; i < segments.length; i++) {
-                for (let j = 0; j < segments[i]; j++) {
-                    key += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                if (i < segments.length - 1) key += '-';
-            }
-            
-            return key;
-        }
+    <div class="section">
+        <h2>🏷 BASIC BENEFIT</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px;">
+            <span class="badge">FREE PEMASANGAN</span>
+            <span class="badge">FREE SETTING</span>
+            <span class="badge">SUPPORT 24 JAM</span>
+            <span class="badge">ANTIBAN ✅</span>
+            <span class="badge">ANTIBL ✅</span>
+            <span class="badge">AMAN SS00 ✅</span>
+            <span class="badge">NO SC ✅</span>
+            <span class="badge">NO GIMIK ✅</span>
+            <span class="badge">WORKK 💯💯</span>
+        </div>
+    </div>
 
-        // Simpan kunci ke Firebase
-        async function saveKeyToFirebase(key) {
-            if (!db) return null;
-            
-            try {
-                const keyData = {
-                    key: key,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    userAgent: navigator.userAgent,
-                    ip: await getClientIP() // Fungsi sederhana untuk mendapatkan IP
-                };
-                
-                const docRef = await db.collection('generatedKeys').add(keyData);
-                console.log("Kunci disimpan dengan ID:", docRef.id);
-                return docRef.id;
-            } catch (error) {
-                console.error("Error menyimpan ke Firebase:", error);
-                return null;
-            }
-        }
+    <div class="section">
+        <h2>🚨 NOTE</h2>
+        <div class="card note">
+            FILE HANYA MEMPERMUDAH HEADSHOT BUKAN AUTO HEADSHOT
+        </div>
+    </div>
 
-        // Fungsi sederhana untuk mendapatkan IP (menggunakan layanan eksternal)
-        async function getClientIP() {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                return data.ip;
-            } catch (error) {
-                return "unknown";
-            }
-        }
+    <button onclick="order()">MINAT BUY KESINI ⤵️</button>
 
-        // Salin kunci ke clipboard
-        async function copyToClipboard(text) {
-            try {
-                await navigator.clipboard.writeText(text);
-                return true;
-            } catch (error) {
-                // Fallback untuk browser lama
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                const success = document.execCommand('copy');
-                document.body.removeChild(textArea);
-                return success;
-            }
-        }
+    <footer>
+        © 2026 RIZKY XIT REAL X AFIFXSTORE REAL
+    </footer>
+</div>
 
-        // Ketika halaman dimuat
-        document.addEventListener('DOMContentLoaded', async function() {
-            const keyDisplay = document.getElementById('keyDisplay');
-            const copyBtn = document.getElementById('copyBtn');
-            const statusEl = document.getElementById('status');
-            
-            // Generate kunci baru
-            const newKey = generateRandomKey();
-            keyDisplay.textContent = newKey;
-            
-            // Tampilkan status memuat
-            statusEl.innerHTML = '<span class="loading"></span> Menyimpan kunci ke database...';
-            
-            // Simpan ke Firebase
-            const savedId = await saveKeyToFirebase(newKey);
-            
-            if (savedId) {
-                statusEl.innerHTML = '✅ Kunci telah disimpan di database.';
-                
-                // Update status setelah 3 detik
-                setTimeout(() => {
-                    statusEl.innerHTML = 'Kunci siap digunakan!';
-                }, 3000);
-            } else {
-                statusEl.innerHTML = '⚠️ Kunci hanya tersimpan di browser ini.';
-            }
-            
-            // Event listener untuk tombol salin
-            copyBtn.addEventListener('click', async function() {
-                const success = await copyToClipboard(newKey);
-                
-                if (success) {
-                    const originalText = copyBtn.innerHTML;
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
-                    copyBtn.style.background = 'linear-gradient(45deg, #00ff00, #00cc00)';
-                    
-                    setTimeout(() => {
-                        copyBtn.innerHTML = originalText;
-                        copyBtn.style.background = 'linear-gradient(45deg, #00ffff, #ff00ff)';
-                    }, 2000);
-                } else {
-                    statusEl.innerHTML = '❌ Gagal menyalin ke clipboard.';
-                    setTimeout(() => {
-                        statusEl.innerHTML = 'Kunci siap digunakan!';
-                    }, 3000);
-                }
-            });
-        });
+<script>
+function order() {
+    window.location.href = "https://wa.me/6283132365522?text=assalamu'alaikum%20bang%20saya%20mau%20beli%20file%20freefire%20yang%20vvip";
+}
+</script>
 
-        // Info untuk pengguna
-        console.log("Website Generator Kunci Arsalways");
-        console.log("Kunci akan otomatis tersimpan ke Firebase");
-        console.log("Panel APK dapat melihat semua kunci yang dibuat");
-    </script>
 </body>
 </html>
